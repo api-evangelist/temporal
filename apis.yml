@@ -1,0 +1,33 @@
+aid: temporal
+name: Temporal
+segments:
+  - ProCode_API_Composition
+  - Workflows
+description: >-
+  Temporal is an open-source durable execution platform for building reliable long-running distributed workflows and microservices.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - ProCode_API_Composition
+  - Workflows
+created: '2026-03-03'
+modified: '2026-03-03'
+url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/main/apis.yml
+specificationVersion: '0.19'
+apis:
+  - aid: temporal:temporal
+    name: Temporal
+    description: >-
+      Temporal is an open-source durable execution platform for building reliable long-running distributed workflows and microservices.
+    humanURL: https://example.com
+    tags:
+      - ProCode_API_Composition
+      - Workflows
+    properties:
+      - type: Documentation
+        url: https://example.com
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
