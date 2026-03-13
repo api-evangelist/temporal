@@ -17,17 +17,84 @@ modified: '2026-03-03'
 url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: temporal:temporal
-    name: Temporal
+  - aid: temporal:server-frontend-api
+    name: Temporal Server Frontend API
     description: >-
-      Temporal is an open-source durable execution platform for building reliable long-running distributed workflows and microservices.
-    humanURL: https://example.com
+      The Temporal Server Frontend API provides gRPC services for interacting
+      with the Temporal Server, including WorkflowService for managing workflow
+      executions, OperatorService for cluster operations, and HealthService for
+      health checks. Client SDKs and the Temporal CLI use these gRPC services
+      under the hood.
+    humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
     tags:
-      - ProCode_API_Composition
+      - Workflows
+      - gRPC
+      - Durable Execution
+    properties:
+      - type: Documentation
+        url: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+      - type: GitHubRepository
+        url: https://github.com/temporalio/api
+  - aid: temporal:cloud-ops-api
+    name: Temporal Cloud Ops API
+    description: >-
+      The Temporal Cloud Operations API is an open source, public HTTP API and
+      gRPC API for programmatically managing Temporal Cloud control plane
+      resources, including Namespaces, Users, Service Accounts, API keys, and
+      other infrastructure components.
+    humanURL: https://docs.temporal.io/ops
+    tags:
+      - Cloud
+      - Operations
       - Workflows
     properties:
       - type: Documentation
-        url: https://example.com
+        url: https://docs.temporal.io/ops
+      - type: APIReference
+        url: https://saas-api.tmprl.cloud/docs/httpapi.html
+      - type: GitHubRepository
+        url: https://github.com/temporalio/cloud-api
+common:
+  - type: Portal
+    url: https://temporal.io/
+  - type: Documentation
+    url: https://docs.temporal.io/
+  - type: GettingStarted
+    url: https://docs.temporal.io/cloud/get-started
+  - type: Quickstart
+    url: https://docs.temporal.io/quickstarts
+  - type: SDKs
+    url: https://docs.temporal.io/develop
+  - type: CLI
+    url: https://docs.temporal.io/cli
+  - type: About
+    url: https://temporal.io/about
+  - type: Pricing
+    url: https://temporal.io/pricing
+  - type: Blog
+    url: https://temporal.io/blog
+  - type: ChangeLog
+    url: https://temporal.io/change-log
+  - type: StatusPage
+    url: https://status.temporal.io
+  - type: Community
+    url: https://temporal.io/community
+  - type: Forum
+    url: https://community.temporal.io
+  - type: Security
+    url: https://temporal.io/security
+  - type: TermsOfService
+    url: https://temporal.io/terms-of-service
+  - type: PrivacyPolicy
+    url: https://temporal.io/global-privacy-policy
+  - type: Login
+    url: https://cloud.temporal.io/login
+  - type: SignUp
+    url: https://docs.temporal.io/cloud/get-started
+  - type: GitHubOrganization
+    url: https://github.com/temporalio
+  - type: Learning
+    url: https://learn.temporal.io/
 maintainers:
   - FN: Kin Lane
-    email: info@apievangelist.com
+    email: kin@apievangelist.com
