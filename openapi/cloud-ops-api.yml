@@ -1,0 +1,617 @@
+openapi: 3.1.0
+info:
+  title: Temporal Cloud Operations API
+  description: >-
+    The Temporal Cloud Operations API provides HTTP endpoints for programmatically
+    managing Temporal Cloud control plane resources including Namespaces, Users,
+    Service Accounts, API keys, and other infrastructure components.
+  version: 2024-05-13-00
+  contact:
+    name: Temporal Technologies
+    url: https://temporal.io/
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://saas-api.tmprl.cloud
+    description: Temporal Cloud API
+security:
+  - BearerAuth: []
+paths:
+  /api/v1/namespaces:
+    get:
+      operationId: listNamespaces
+      summary: List namespaces
+      description: Returns a list of all Namespaces in the account.
+      tags:
+        - Namespaces
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+        - name: pageToken
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  namespaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Namespace'
+                  nextPageToken:
+                    type: string
+    post:
+      operationId: createNamespace
+      summary: Create a namespace
+      description: Creates a new Namespace in the account.
+      tags:
+        - Namespaces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNamespaceRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNamespaceResponse'
+  /api/v1/namespaces/{namespace}:
+    get:
+      operationId: getNamespace
+      summary: Get a namespace
+      description: Returns details of a specific Namespace.
+      tags:
+        - Namespaces
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Namespace'
+    delete:
+      operationId: deleteNamespace
+      summary: Delete a namespace
+      description: Deletes a specific Namespace.
+      tags:
+        - Namespaces
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/namespaces/{namespace}/update:
+    post:
+      operationId: updateNamespace
+      summary: Update a namespace
+      description: Updates a specific Namespace configuration.
+      tags:
+        - Namespaces
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNamespaceRequest'
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/users:
+    get:
+      operationId: listUsers
+      summary: List users
+      description: Returns a list of all Users in the account.
+      tags:
+        - Users
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+        - name: pageToken
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  nextPageToken:
+                    type: string
+    post:
+      operationId: createUser
+      summary: Create a user
+      description: Creates a new User in the account.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/users/{userId}:
+    get:
+      operationId: getUser
+      summary: Get a user
+      description: Returns details of a specific User.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      operationId: deleteUser
+      summary: Delete a user
+      description: Deletes a specific User.
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/service-accounts:
+    get:
+      operationId: listServiceAccounts
+      summary: List service accounts
+      description: Returns a list of all Service Accounts in the account.
+      tags:
+        - Service Accounts
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+        - name: pageToken
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  serviceAccounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ServiceAccount'
+                  nextPageToken:
+                    type: string
+    post:
+      operationId: createServiceAccount
+      summary: Create a service account
+      description: Creates a new Service Account.
+      tags:
+        - Service Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceAccountRequest'
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/service-accounts/{serviceAccountId}:
+    get:
+      operationId: getServiceAccount
+      summary: Get a service account
+      description: Returns details of a specific Service Account.
+      tags:
+        - Service Accounts
+      parameters:
+        - name: serviceAccountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAccount'
+    delete:
+      operationId: deleteServiceAccount
+      summary: Delete a service account
+      description: Deletes a specific Service Account.
+      tags:
+        - Service Accounts
+      parameters:
+        - name: serviceAccountId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/api-keys:
+    get:
+      operationId: listApiKeys
+      summary: List API keys
+      description: Returns a list of all API keys in the account.
+      tags:
+        - API Keys
+      parameters:
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+        - name: pageToken
+          in: query
+          schema:
+            type: string
+        - name: ownerId
+          in: query
+          schema:
+            type: string
+        - name: ownerType
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiKeys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKey'
+                  nextPageToken:
+                    type: string
+    post:
+      operationId: createApiKey
+      summary: Create an API key
+      description: Creates a new API key for authentication.
+      tags:
+        - API Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/api-keys/{keyId}:
+    get:
+      operationId: getApiKey
+      summary: Get an API key
+      description: Returns details of a specific API key.
+      tags:
+        - API Keys
+      parameters:
+        - name: keyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+    delete:
+      operationId: deleteApiKey
+      summary: Delete an API key
+      description: Deletes a specific API key.
+      tags:
+        - API Keys
+      parameters:
+        - name: keyId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/v1/regions:
+    get:
+      operationId: listRegions
+      summary: List regions
+      description: Returns a list of all available regions.
+      tags:
+        - Regions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  regions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Region'
+  /api/v1/async-operations/{asyncOperationId}:
+    get:
+      operationId: getAsyncOperation
+      summary: Get async operation status
+      description: Returns the status of an asynchronous operation.
+      tags:
+        - Async Operations
+      parameters:
+        - name: asyncOperationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncOperation'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
+  schemas:
+    Namespace:
+      type: object
+      properties:
+        namespace:
+          type: string
+        resourceVersion:
+          type: string
+        spec:
+          type: object
+          properties:
+            name:
+              type: string
+            region:
+              type: string
+            retentionDays:
+              type: integer
+            codecServer:
+              type: object
+            mtlsAuth:
+              type: object
+        state:
+          type: string
+        asyncOperationId:
+          type: string
+        endpoints:
+          type: object
+        createdTime:
+          type: string
+          format: date-time
+        lastModifiedTime:
+          type: string
+          format: date-time
+    CreateNamespaceRequest:
+      type: object
+      required:
+        - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            name:
+              type: string
+            region:
+              type: string
+            retentionDays:
+              type: integer
+    UpdateNamespaceRequest:
+      type: object
+      required:
+        - resourceVersion
+        - spec
+      properties:
+        resourceVersion:
+          type: string
+        spec:
+          type: object
+    CreateNamespaceResponse:
+      type: object
+      properties:
+        namespace:
+          type: string
+        asyncOperationId:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        resourceVersion:
+          type: string
+        spec:
+          type: object
+          properties:
+            email:
+              type: string
+            access:
+              type: object
+        state:
+          type: string
+        createdTime:
+          type: string
+          format: date-time
+        lastModifiedTime:
+          type: string
+          format: date-time
+    CreateUserRequest:
+      type: object
+      required:
+        - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            email:
+              type: string
+            access:
+              type: object
+    ServiceAccount:
+      type: object
+      properties:
+        id:
+          type: string
+        resourceVersion:
+          type: string
+        spec:
+          type: object
+          properties:
+            name:
+              type: string
+            access:
+              type: object
+        state:
+          type: string
+        createdTime:
+          type: string
+          format: date-time
+    CreateServiceAccountRequest:
+      type: object
+      required:
+        - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            name:
+              type: string
+            access:
+              type: object
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        resourceVersion:
+          type: string
+        spec:
+          type: object
+          properties:
+            displayName:
+              type: string
+            ownerId:
+              type: string
+            ownerType:
+              type: string
+            expiryTime:
+              type: string
+              format: date-time
+        state:
+          type: string
+        createdTime:
+          type: string
+          format: date-time
+    CreateApiKeyRequest:
+      type: object
+      required:
+        - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            displayName:
+              type: string
+            ownerId:
+              type: string
+            ownerType:
+              type: string
+            expiryTime:
+              type: string
+              format: date-time
+    Region:
+      type: object
+      properties:
+        id:
+          type: string
+        cloudProvider:
+          type: string
+        location:
+          type: string
+    AsyncOperation:
+      type: object
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+        checkDuration:
+          type: string
+        operationType:
+          type: string
+        startedTime:
+          type: string
+          format: date-time
+        finishedTime:
+          type: string
+          format: date-time
+        failureReason:
+          type: string

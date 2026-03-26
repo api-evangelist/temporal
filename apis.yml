@@ -54,6 +54,8 @@ apis:
         url: https://saas-api.tmprl.cloud/docs/httpapi.html
       - type: GitHubRepository
         url: https://github.com/temporalio/cloud-api
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/master/openapi/cloud-ops-api.yml
 common:
   - type: Portal
     url: https://temporal.io/
