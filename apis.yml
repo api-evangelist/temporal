@@ -27,9 +27,9 @@ apis:
       under the hood.
     humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
     tags:
-      - Workflows
-      - gRPC
       - Durable Execution
+      - gRPC
+      - Workflows
     properties:
       - type: Documentation
         url: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
