@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "AsyncOperation",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "checkDuration": {
+      "type": "string"
+    },
+    "operationType": {
+      "type": "string"
+    },
+    "startedTime": {
+      "type": "string"
+    },
+    "finishedTime": {
+      "type": "string"
+    },
+    "failureReason": {
+      "type": "string"
+    }
+  }
+}

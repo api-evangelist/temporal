@@ -1,0 +1,13 @@
+name: temporal API Vocabulary
+provider: temporal
+created: '2026-04-19'
+modified: '2026-04-19'
+operations: 19
+schemas: 12
+tags:
+- API Keys
+- Async Operations
+- Namespaces
+- Regions
+- Service Accounts
+- Users

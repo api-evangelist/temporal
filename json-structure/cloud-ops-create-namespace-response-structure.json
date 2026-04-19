@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "CreateNamespaceResponse",
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "type": "string"
+    },
+    "asyncOperationId": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "resourceVersion": {
+      "type": "string"
+    },
+    "spec": {
+      "type": "object"
+    },
+    "state": {
+      "type": "string"
+    },
+    "createdTime": {
+      "type": "string"
+    },
+    "lastModifiedTime": {
+      "type": "string"
+    }
+  }
+}

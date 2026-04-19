@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-structure.org/draft/2020-12/schema",
+  "name": "Namespace",
+  "type": "object",
+  "properties": {
+    "namespace": {
+      "type": "string"
+    },
+    "resourceVersion": {
+      "type": "string"
+    },
+    "spec": {
+      "type": "object"
+    },
+    "state": {
+      "type": "string"
+    },
+    "asyncOperationId": {
+      "type": "string"
+    },
+    "endpoints": {
+      "type": "object"
+    },
+    "createdTime": {
+      "type": "string"
+    },
+    "lastModifiedTime": {
+      "type": "string"
+    }
+  }
+}

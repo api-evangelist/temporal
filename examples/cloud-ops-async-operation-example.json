@@ -1,0 +1,9 @@
+{
+  "id": "abc123",
+  "state": "example_value",
+  "checkDuration": "example_value",
+  "operationType": "example_value",
+  "startedTime": "example_value",
+  "finishedTime": "example_value",
+  "failureReason": "example_value"
+}

@@ -1,0 +1,8 @@
+{
+  "id": "abc123",
+  "resourceVersion": "example_value",
+  "spec": "example_value",
+  "state": "example_value",
+  "createdTime": "example_value",
+  "lastModifiedTime": "example_value"
+}

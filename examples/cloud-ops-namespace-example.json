@@ -1,0 +1,10 @@
+{
+  "namespace": "example_value",
+  "resourceVersion": "example_value",
+  "spec": "example_value",
+  "state": "example_value",
+  "asyncOperationId": "500123",
+  "endpoints": "example_value",
+  "createdTime": "example_value",
+  "lastModifiedTime": "example_value"
+}

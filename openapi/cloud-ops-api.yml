@@ -13,27 +13,27 @@ info:
     name: MIT
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://saas-api.tmprl.cloud
-    description: Temporal Cloud API
+- url: https://saas-api.tmprl.cloud
+  description: Temporal Cloud API
 security:
-  - BearerAuth: []
+- BearerAuth: []
 paths:
   /api/v1/namespaces:
     get:
       operationId: listNamespaces
-      summary: List namespaces
+      summary: List Namespaces
       description: Returns a list of all Namespaces in the account.
       tags:
-        - Namespaces
+      - Namespaces
       parameters:
-        - name: pageSize
-          in: query
-          schema:
-            type: integer
-        - name: pageToken
-          in: query
-          schema:
-            type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -48,12 +48,15 @@ paths:
                       $ref: '#/components/schemas/Namespace'
                   nextPageToken:
                     type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createNamespace
-      summary: Create a namespace
+      summary: Create a Namespace
       description: Creates a new Namespace in the account.
       tags:
-        - Namespaces
+      - Namespaces
       requestBody:
         required: true
         content:
@@ -67,19 +70,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateNamespaceResponse'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/namespaces/{namespace}:
     get:
       operationId: getNamespace
-      summary: Get a namespace
+      summary: Get a Namespace
       description: Returns details of a specific Namespace.
       tags:
-        - Namespaces
+      - Namespaces
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -87,34 +93,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Namespace'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteNamespace
-      summary: Delete a namespace
+      summary: Delete a Namespace
       description: Deletes a specific Namespace.
       tags:
-        - Namespaces
+      - Namespaces
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/namespaces/{namespace}/update:
     post:
       operationId: updateNamespace
-      summary: Update a namespace
+      summary: Update a Namespace
       description: Updates a specific Namespace configuration.
       tags:
-        - Namespaces
+      - Namespaces
       parameters:
-        - name: namespace
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: namespace
+        in: path
+        required: true
+        schema:
+          type: string
       requestBody:
         required: true
         content:
@@ -124,22 +136,25 @@ paths:
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/users:
     get:
       operationId: listUsers
-      summary: List users
+      summary: List Users
       description: Returns a list of all Users in the account.
       tags:
-        - Users
+      - Users
       parameters:
-        - name: pageSize
-          in: query
-          schema:
-            type: integer
-        - name: pageToken
-          in: query
-          schema:
-            type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -154,12 +169,15 @@ paths:
                       $ref: '#/components/schemas/User'
                   nextPageToken:
                     type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createUser
-      summary: Create a user
+      summary: Create a User
       description: Creates a new User in the account.
       tags:
-        - Users
+      - Users
       requestBody:
         required: true
         content:
@@ -169,19 +187,22 @@ paths:
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/users/{userId}:
     get:
       operationId: getUser
-      summary: Get a user
+      summary: Get a User
       description: Returns details of a specific User.
       tags:
-        - Users
+      - Users
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -189,37 +210,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteUser
-      summary: Delete a user
+      summary: Delete a User
       description: Deletes a specific User.
       tags:
-        - Users
+      - Users
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/service-accounts:
     get:
       operationId: listServiceAccounts
-      summary: List service accounts
+      summary: List Service Accounts
       description: Returns a list of all Service Accounts in the account.
       tags:
-        - Service Accounts
+      - Service Accounts
       parameters:
-        - name: pageSize
-          in: query
-          schema:
-            type: integer
-        - name: pageToken
-          in: query
-          schema:
-            type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -234,12 +261,15 @@ paths:
                       $ref: '#/components/schemas/ServiceAccount'
                   nextPageToken:
                     type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createServiceAccount
-      summary: Create a service account
+      summary: Create a Service Account
       description: Creates a new Service Account.
       tags:
-        - Service Accounts
+      - Service Accounts
       requestBody:
         required: true
         content:
@@ -249,19 +279,22 @@ paths:
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/service-accounts/{serviceAccountId}:
     get:
       operationId: getServiceAccount
-      summary: Get a service account
+      summary: Get a Service Account
       description: Returns details of a specific Service Account.
       tags:
-        - Service Accounts
+      - Service Accounts
       parameters:
-        - name: serviceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: serviceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -269,45 +302,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceAccount'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteServiceAccount
-      summary: Delete a service account
+      summary: Delete a Service Account
       description: Deletes a specific Service Account.
       tags:
-        - Service Accounts
+      - Service Accounts
       parameters:
-        - name: serviceAccountId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: serviceAccountId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/api-keys:
     get:
       operationId: listApiKeys
-      summary: List API keys
+      summary: List Api Keys
       description: Returns a list of all API keys in the account.
       tags:
-        - API Keys
+      - API Keys
       parameters:
-        - name: pageSize
-          in: query
-          schema:
-            type: integer
-        - name: pageToken
-          in: query
-          schema:
-            type: string
-        - name: ownerId
-          in: query
-          schema:
-            type: string
-        - name: ownerType
-          in: query
-          schema:
-            type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
+      - name: ownerId
+        in: query
+        schema:
+          type: string
+      - name: ownerType
+        in: query
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -322,12 +361,15 @@ paths:
                       $ref: '#/components/schemas/ApiKey'
                   nextPageToken:
                     type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     post:
       operationId: createApiKey
-      summary: Create an API key
+      summary: Create an Api Key
       description: Creates a new API key for authentication.
       tags:
-        - API Keys
+      - API Keys
       requestBody:
         required: true
         content:
@@ -337,19 +379,22 @@ paths:
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/api-keys/{keyId}:
     get:
       operationId: getApiKey
-      summary: Get an API key
+      summary: Get an Api Key
       description: Returns details of a specific API key.
       tags:
-        - API Keys
+      - API Keys
       parameters:
-        - name: keyId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -357,28 +402,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiKey'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
     delete:
       operationId: deleteApiKey
-      summary: Delete an API key
+      summary: Delete an Api Key
       description: Deletes a specific API key.
       tags:
-        - API Keys
+      - API Keys
       parameters:
-        - name: keyId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/regions:
     get:
       operationId: listRegions
-      summary: List regions
+      summary: List Regions
       description: Returns a list of all available regions.
       tags:
-        - Regions
+      - Regions
       responses:
         '200':
           description: Successful response
@@ -391,19 +442,22 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Region'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
   /api/v1/async-operations/{asyncOperationId}:
     get:
       operationId: getAsyncOperation
-      summary: Get async operation status
+      summary: Get Async Operation Status
       description: Returns the status of an asynchronous operation.
       tags:
-        - Async Operations
+      - Async Operations
       parameters:
-        - name: asyncOperationId
-          in: path
-          required: true
-          schema:
-            type: string
+      - name: asyncOperationId
+        in: path
+        required: true
+        schema:
+          type: string
       responses:
         '200':
           description: Successful response
@@ -411,6 +465,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AsyncOperation'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
 components:
   securitySchemes:
     BearerAuth:
@@ -423,8 +480,10 @@ components:
       properties:
         namespace:
           type: string
+          example: example_value
         resourceVersion:
           type: string
+          example: example_value
         spec:
           type: object
           properties:
@@ -438,22 +497,28 @@ components:
               type: object
             mtlsAuth:
               type: object
+          example: example_value
         state:
           type: string
+          example: example_value
         asyncOperationId:
           type: string
+          example: '500123'
         endpoints:
           type: object
+          example: example_value
         createdTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         lastModifiedTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
     CreateNamespaceRequest:
       type: object
       required:
-        - spec
+      - spec
       properties:
         spec:
           type: object
@@ -464,30 +529,37 @@ components:
               type: string
             retentionDays:
               type: integer
+          example: example_value
     UpdateNamespaceRequest:
       type: object
       required:
-        - resourceVersion
-        - spec
+      - resourceVersion
+      - spec
       properties:
         resourceVersion:
           type: string
+          example: example_value
         spec:
           type: object
+          example: example_value
     CreateNamespaceResponse:
       type: object
       properties:
         namespace:
           type: string
+          example: example_value
         asyncOperationId:
           type: string
+          example: '500123'
     User:
       type: object
       properties:
         id:
           type: string
+          example: abc123
         resourceVersion:
           type: string
+          example: example_value
         spec:
           type: object
           properties:
@@ -495,18 +567,22 @@ components:
               type: string
             access:
               type: object
+          example: example_value
         state:
           type: string
+          example: example_value
         createdTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         lastModifiedTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
     CreateUserRequest:
       type: object
       required:
-        - spec
+      - spec
       properties:
         spec:
           type: object
@@ -515,13 +591,16 @@ components:
               type: string
             access:
               type: object
+          example: example_value
     ServiceAccount:
       type: object
       properties:
         id:
           type: string
+          example: abc123
         resourceVersion:
           type: string
+          example: example_value
         spec:
           type: object
           properties:
@@ -529,15 +608,18 @@ components:
               type: string
             access:
               type: object
+          example: example_value
         state:
           type: string
+          example: example_value
         createdTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
     CreateServiceAccountRequest:
       type: object
       required:
-        - spec
+      - spec
       properties:
         spec:
           type: object
@@ -546,13 +628,16 @@ components:
               type: string
             access:
               type: object
+          example: example_value
     ApiKey:
       type: object
       properties:
         id:
           type: string
+          example: abc123
         resourceVersion:
           type: string
+          example: example_value
         spec:
           type: object
           properties:
@@ -565,15 +650,18 @@ components:
             expiryTime:
               type: string
               format: date-time
+          example: example_value
         state:
           type: string
+          example: example_value
         createdTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
     CreateApiKeyRequest:
       type: object
       required:
-        - spec
+      - spec
       properties:
         spec:
           type: object
@@ -587,31 +675,42 @@ components:
             expiryTime:
               type: string
               format: date-time
+          example: example_value
     Region:
       type: object
       properties:
         id:
           type: string
+          example: abc123
         cloudProvider:
           type: string
+          example: example_value
         location:
           type: string
+          example: example_value
     AsyncOperation:
       type: object
       properties:
         id:
           type: string
+          example: abc123
         state:
           type: string
+          example: example_value
         checkDuration:
           type: string
+          example: example_value
         operationType:
           type: string
+          example: example_value
         startedTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         finishedTime:
           type: string
           format: date-time
+          example: '2026-01-15T10:30:00Z'
         failureReason:
           type: string
+          example: example_value
