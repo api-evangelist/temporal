@@ -1,0 +1,13 @@
+{
+  "repo": "temporal",
+  "feeds": [
+    {
+      "source": "https://temporal.io/blog",
+      "feed_url": "https://temporal.io/blog/feed.xml",
+      "saved": 10,
+      "title": "Temporal Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:37:24Z"
+}
