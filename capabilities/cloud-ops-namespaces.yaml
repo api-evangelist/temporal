@@ -1,0 +1,241 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Temporal Cloud Operations API — Namespaces
+  description: 'Temporal Cloud Operations API — Namespaces. 5 operations. Lead operation: List Namespaces. Self-contained
+    Naftiko capability covering one Temporal business surface.'
+  tags:
+  - Temporal
+  - Namespaces
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TEMPORAL_API_KEY: TEMPORAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-ops-namespaces
+    baseUri: https://saas-api.tmprl.cloud
+    description: Temporal Cloud Operations API — Namespaces business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-namespaces
+      path: /api/v1/namespaces
+      operations:
+      - name: listnamespaces
+        method: GET
+        description: List Namespaces
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: integer
+        - name: pageToken
+          in: query
+          type: string
+      - name: createnamespace
+        method: POST
+        description: Create a Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-namespaces-namespace
+      path: /api/v1/namespaces/{namespace}
+      operations:
+      - name: getnamespace
+        method: GET
+        description: Get a Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace
+          in: path
+          type: string
+          required: true
+      - name: deletenamespace
+        method: DELETE
+        description: Delete a Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace
+          in: path
+          type: string
+          required: true
+    - name: api-v1-namespaces-namespace-update
+      path: /api/v1/namespaces/{namespace}/update
+      operations:
+      - name: updatenamespace
+        method: POST
+        description: Update a Namespace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: namespace
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TEMPORAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-ops-namespaces-rest
+    port: 8080
+    description: REST adapter for Temporal Cloud Operations API — Namespaces. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/namespaces
+      name: api-v1-namespaces
+      description: REST surface for api-v1-namespaces.
+      operations:
+      - method: GET
+        name: listnamespaces
+        description: List Namespaces
+        call: cloud-ops-namespaces.listnamespaces
+        with:
+          pageSize: rest.pageSize
+          pageToken: rest.pageToken
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createnamespace
+        description: Create a Namespace
+        call: cloud-ops-namespaces.createnamespace
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/namespaces/{namespace}
+      name: api-v1-namespaces-namespace
+      description: REST surface for api-v1-namespaces-namespace.
+      operations:
+      - method: GET
+        name: getnamespace
+        description: Get a Namespace
+        call: cloud-ops-namespaces.getnamespace
+        with:
+          namespace: rest.namespace
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletenamespace
+        description: Delete a Namespace
+        call: cloud-ops-namespaces.deletenamespace
+        with:
+          namespace: rest.namespace
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/namespaces/{namespace}/update
+      name: api-v1-namespaces-namespace-update
+      description: REST surface for api-v1-namespaces-namespace-update.
+      operations:
+      - method: POST
+        name: updatenamespace
+        description: Update a Namespace
+        call: cloud-ops-namespaces.updatenamespace
+        with:
+          namespace: rest.namespace
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-ops-namespaces-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Temporal Cloud Operations API — Namespaces. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-namespaces
+      description: List Namespaces
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-namespaces.listnamespaces
+      with:
+        pageSize: tools.pageSize
+        pageToken: tools.pageToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-namespace
+      description: Create a Namespace
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-ops-namespaces.createnamespace
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-namespace
+      description: Get a Namespace
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-namespaces.getnamespace
+      with:
+        namespace: tools.namespace
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-namespace
+      description: Delete a Namespace
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-ops-namespaces.deletenamespace
+      with:
+        namespace: tools.namespace
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-namespace
+      description: Update a Namespace
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-ops-namespaces.updatenamespace
+      with:
+        namespace: tools.namespace
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

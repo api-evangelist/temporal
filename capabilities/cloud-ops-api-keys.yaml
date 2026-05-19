@@ -1,0 +1,203 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Temporal Cloud Operations API — API Keys
+  description: 'Temporal Cloud Operations API — API Keys. 4 operations. Lead operation: List Api Keys. Self-contained Naftiko
+    capability covering one Temporal business surface.'
+  tags:
+  - Temporal
+  - API Keys
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TEMPORAL_API_KEY: TEMPORAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-ops-api-keys
+    baseUri: https://saas-api.tmprl.cloud
+    description: Temporal Cloud Operations API — API Keys business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-api-keys
+      path: /api/v1/api-keys
+      operations:
+      - name: listapikeys
+        method: GET
+        description: List Api Keys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: integer
+        - name: pageToken
+          in: query
+          type: string
+        - name: ownerId
+          in: query
+          type: string
+        - name: ownerType
+          in: query
+          type: string
+      - name: createapikey
+        method: POST
+        description: Create an Api Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-api-keys-keyId
+      path: /api/v1/api-keys/{keyId}
+      operations:
+      - name: getapikey
+        method: GET
+        description: Get an Api Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: keyId
+          in: path
+          type: string
+          required: true
+      - name: deleteapikey
+        method: DELETE
+        description: Delete an Api Key
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: keyId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TEMPORAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-ops-api-keys-rest
+    port: 8080
+    description: REST adapter for Temporal Cloud Operations API — API Keys. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/api-keys
+      name: api-v1-api-keys
+      description: REST surface for api-v1-api-keys.
+      operations:
+      - method: GET
+        name: listapikeys
+        description: List Api Keys
+        call: cloud-ops-api-keys.listapikeys
+        with:
+          pageSize: rest.pageSize
+          pageToken: rest.pageToken
+          ownerId: rest.ownerId
+          ownerType: rest.ownerType
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createapikey
+        description: Create an Api Key
+        call: cloud-ops-api-keys.createapikey
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/api-keys/{keyid}
+      name: api-v1-api-keys-keyid
+      description: REST surface for api-v1-api-keys-keyId.
+      operations:
+      - method: GET
+        name: getapikey
+        description: Get an Api Key
+        call: cloud-ops-api-keys.getapikey
+        with:
+          keyId: rest.keyId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteapikey
+        description: Delete an Api Key
+        call: cloud-ops-api-keys.deleteapikey
+        with:
+          keyId: rest.keyId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-ops-api-keys-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Temporal Cloud Operations API — API Keys. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-api-keys
+      description: List Api Keys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-api-keys.listapikeys
+      with:
+        pageSize: tools.pageSize
+        pageToken: tools.pageToken
+        ownerId: tools.ownerId
+        ownerType: tools.ownerType
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-api-key
+      description: Create an Api Key
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-ops-api-keys.createapikey
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-api-key
+      description: Get an Api Key
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-api-keys.getapikey
+      with:
+        keyId: tools.keyId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-api-key
+      description: Delete an Api Key
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-ops-api-keys.deleteapikey
+      with:
+        keyId: tools.keyId
+      outputParameters:
+      - type: object
+        mapping: $.

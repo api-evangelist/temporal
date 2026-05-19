@@ -1,0 +1,193 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Temporal Cloud Operations API — Users
+  description: 'Temporal Cloud Operations API — Users. 4 operations. Lead operation: List Users. Self-contained Naftiko capability
+    covering one Temporal business surface.'
+  tags:
+  - Temporal
+  - Users
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    TEMPORAL_API_KEY: TEMPORAL_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cloud-ops-users
+    baseUri: https://saas-api.tmprl.cloud
+    description: Temporal Cloud Operations API — Users business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-users
+      path: /api/v1/users
+      operations:
+      - name: listusers
+        method: GET
+        description: List Users
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: integer
+        - name: pageToken
+          in: query
+          type: string
+      - name: createuser
+        method: POST
+        description: Create a User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-users-userId
+      path: /api/v1/users/{userId}
+      operations:
+      - name: getuser
+        method: GET
+        description: Get a User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+      - name: deleteuser
+        method: DELETE
+        description: Delete a User
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.TEMPORAL_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: cloud-ops-users-rest
+    port: 8080
+    description: REST adapter for Temporal Cloud Operations API — Users. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/users
+      name: api-v1-users
+      description: REST surface for api-v1-users.
+      operations:
+      - method: GET
+        name: listusers
+        description: List Users
+        call: cloud-ops-users.listusers
+        with:
+          pageSize: rest.pageSize
+          pageToken: rest.pageToken
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createuser
+        description: Create a User
+        call: cloud-ops-users.createuser
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/users/{userid}
+      name: api-v1-users-userid
+      description: REST surface for api-v1-users-userId.
+      operations:
+      - method: GET
+        name: getuser
+        description: Get a User
+        call: cloud-ops-users.getuser
+        with:
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteuser
+        description: Delete a User
+        call: cloud-ops-users.deleteuser
+        with:
+          userId: rest.userId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cloud-ops-users-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Temporal Cloud Operations API — Users. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-users
+      description: List Users
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-users.listusers
+      with:
+        pageSize: tools.pageSize
+        pageToken: tools.pageToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-user
+      description: Create a User
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cloud-ops-users.createuser
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-user
+      description: Get a User
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cloud-ops-users.getuser
+      with:
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-user
+      description: Delete a User
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cloud-ops-users.deleteuser
+      with:
+        userId: tools.userId
+      outputParameters:
+      - type: object
+        mapping: $.
