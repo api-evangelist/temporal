@@ -150,6 +150,8 @@ common:
   - name: Agent Skills
     url: https://github.com/temporalio/skill-temporal-developer
     type: AgentSkill
+  - type: LLMsTxt
+    url: https://docs.temporal.io/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
