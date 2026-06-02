@@ -1,0 +1,237 @@
+aid: temporal
+name: Temporal
+review_type: webhook-event-surface
+question: Does Temporal Cloud expose a documented, first-party outbound webhook or
+  push-event surface (webhooks, AsyncAPI-style event delivery, or HTTP push) for
+  platform/admin/billing/replication events?
+answer: 'No'
+summary: |
+  Temporal's primary developer surface is the open-source Temporal Server (gRPC
+  WorkflowService / OperatorService / HealthService) consumed via the Temporal
+  SDKs and CLI, and Temporal Cloud's control plane (Temporal Cloud Ops API)
+  exposed as a public HTTP + gRPC API for managing Namespaces, Users, Service
+  Accounts, API keys, regions, and async operations. Across all current Temporal
+  Cloud surfaces reviewed (Notifications, Audit Logging, Metrics, Actions /
+  billing, Nexus, status page, Cloud Ops API), Temporal Cloud does not document
+  a first-party outbound webhook, AsyncAPI channel, or HTTP push subscription
+  that customers can register a callback URL against. Administrative events
+  (certificate / API key expiration, billing / credit consumption, failover
+  completion, plan changes) are delivered by email from noreply@temporal.io.
+  Incident updates are delivered through the third-party status page
+  (status.temporal.io), where Temporal customers subscribe via email / Slack /
+  SMS using the status page provider's own subscription mechanism, not a
+  Temporal-operated webhook. Audit logs are not pushed via webhook — they are
+  written to an AWS Kinesis stream or GCP Pub/Sub topic configured as an audit
+  log sink, or pulled from the Cloud Ops API (30-day window). Metrics are pull
+  only (Prometheus-compatible scrape at metrics.temporal.io). Nexus uses
+  queue-poll workers, not HTTP push. Therefore an AsyncAPI 2.6 description of a
+  Temporal Cloud webhook surface cannot be produced without fabrication, and
+  the correct artifact for this provider is this review.
+investigated_on: '2026-05-30'
+investigated_by: API Evangelist
+findings:
+  - name: No outbound webhook subscription mechanism in Temporal Cloud
+    detail: |
+      The Temporal Cloud documentation (docs.temporal.io/cloud) and the
+      Temporal Cloud Ops API (saas-api.tmprl.cloud) do not document any
+      endpoint for registering a customer callback URL to receive
+      administrative, billing, namespace lifecycle, async operation, or
+      replication events. The Cloud Ops API captured in this repo
+      (openapi/cloud-ops-api.yml) is a request/response control-plane API for
+      managing Namespaces, Users, Service Accounts, API keys, regions, and
+      async operations; it contains no webhook callback objects and no
+      subscription endpoints.
+    sources:
+      - https://docs.temporal.io/cloud
+      - https://saas-api.tmprl.cloud/docs/httpapi.html
+      - openapi/cloud-ops-api.yml
+  - name: Administrative notifications are email, not webhooks
+    detail: |
+      Temporal Cloud delivers administrative notifications by email from
+      noreply@temporal.io. Documented notification triggers include certificate
+      expiration (15, 10, 5 days before expiry), API key expiration (30, 20, 10
+      days before expiry), sign-up credit consumption (50%, 90%, plus
+      expiration reminders), account plan changes, and namespace failover
+      completion / failure. There is no documented mechanism to redirect these
+      notifications to a customer HTTP endpoint.
+    sources:
+      - https://docs.temporal.io/cloud/notifications
+  - name: Status page subscriptions are operated by the status page vendor
+    detail: |
+      In the event of an incident, Temporal updates status.temporal.io, and
+      users can subscribe to updates by email, Slack, SMS, etc. through the
+      status page provider's own subscription mechanism. These are not
+      Temporal-operated webhooks against a customer-supplied URL — they are
+      end-user notification preferences inside the third-party status page
+      service.
+    sources:
+      - https://status.temporal.io
+      - https://docs.temporal.io/cloud/notifications
+  - name: Audit logs are sink-based (Kinesis / Pub/Sub) or pull, not push
+    detail: |
+      Temporal Cloud audit logging does not push events to customer webhooks.
+      Audit Log sinks can be configured to AWS Kinesis or GCP Pub/Sub, and the
+      Temporal Cloud Ops API can retrieve up to 30 days of audit log entries.
+      The recommended export path is the sink, not a webhook callback, and
+      both supported sinks are cloud provider streaming services rather than
+      HTTP push.
+    sources:
+      - https://docs.temporal.io/cloud/audit-logging
+      - https://docs.temporal.io/ops
+  - name: Metrics are Prometheus-scrape (pull), not webhook (push)
+    detail: |
+      Temporal Cloud exposes an OpenMetrics / Prometheus-compatible scrape
+      endpoint at metrics.temporal.io. Observability integrations (Datadog,
+      Grafana Cloud, New Relic, ClickStack, self-hosted Prometheus) pull from
+      this endpoint. There is no documented push / webhook delivery of metrics
+      or alerts from Temporal Cloud itself.
+    sources:
+      - https://docs.temporal.io/cloud/metrics
+  - name: Temporal Cloud Actions are billable units, not webhook events
+    detail: |
+      "Actions" in Temporal Cloud refers to billable units of work (Workflow,
+      Activity, Timer, Signal, Query, Update, Schedule, Nexus, Export,
+      Fairness, Capacity) used for pricing and metering. The Actions page does
+      not describe any outbound event delivery, webhook subscription, or
+      AsyncAPI channel.
+    sources:
+      - https://docs.temporal.io/cloud/actions
+      - https://docs.temporal.io/cloud/pricing
+  - name: Nexus is queue-poll worker delivery, not HTTP push
+    detail: |
+      Temporal Nexus uses the same queue-based Worker architecture as the rest
+      of Temporal. Handler Workers poll the Endpoint's target Task Queue for
+      Nexus Tasks; Nexus does not deliver tasks via HTTP push or webhook
+      callbacks to customer-registered URLs.
+    sources:
+      - https://docs.temporal.io/nexus
+  - name: Workflow / Activity event delivery is SDK long-poll, not webhook
+    detail: |
+      Temporal's core developer surface — starting workflows, signaling,
+      querying, completing activities — is delivered via the Temporal Server
+      Frontend gRPC API consumed by SDK workers that long-poll task queues.
+      This is the canonical Temporal model and is intentionally not a webhook
+      surface; customer workers pull tasks, the Temporal Cloud control plane
+      does not push HTTP events outbound.
+    sources:
+      - https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+      - https://github.com/temporalio/api
+documented_apis:
+  - name: Temporal Server Frontend API
+    protocol: gRPC
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      gRPC WorkflowService / OperatorService / HealthService. SDK workers
+      consume via long-poll on task queues. No outbound HTTP push.
+  - name: Temporal Cloud Ops API
+    protocol: HTTP + gRPC
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      Control plane for Namespaces, Users, Service Accounts, API keys,
+      regions, async operations. Request/response only. No webhook callbacks
+      or subscription endpoints in the public spec.
+  - name: Temporal Cloud Metrics (OpenMetrics)
+    protocol: HTTPS (Prometheus scrape)
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      Pull-only. Customers and observability vendors scrape
+      metrics.temporal.io.
+  - name: Temporal Cloud Audit Logs
+    protocol: AWS Kinesis / GCP Pub/Sub sink + Cloud Ops API pull
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      Streamed to a customer-owned Kinesis stream or Pub/Sub topic, or pulled
+      from the Cloud Ops API (30 days). No HTTP webhook delivery.
+  - name: Temporal Cloud Notifications
+    protocol: Email
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      Administrative events (certificate / API key expiry, billing / credits,
+      plan changes, failover completion) are emailed from noreply@temporal.io.
+  - name: Temporal Cloud Status Page
+    protocol: Third-party status page subscription
+    websocket: false
+    sse: false
+    webhooks: false
+    notes: |
+      status.temporal.io subscriptions are managed by the status page
+      provider, not by Temporal as outbound webhooks.
+event_surface:
+  webhooks: []
+  asyncapi_channels: []
+  sse: []
+  websocket: []
+  push_email:
+    - noreply@temporal.io administrative notifications
+  push_status_page:
+    - status.temporal.io incident subscriptions (vendor-managed)
+  streaming_sinks:
+    - AWS Kinesis (audit logs)
+    - GCP Pub/Sub (audit logs)
+  pull_endpoints:
+    - metrics.temporal.io (Prometheus / OpenMetrics scrape)
+    - Cloud Ops API (audit log retrieval, 30-day window)
+asyncapi_recommendation:
+  produce: false
+  reason: |
+    Temporal Cloud does not expose a first-party outbound webhook, AsyncAPI
+    channel, or HTTP push subscription. Administrative notifications are
+    email; status updates are delivered by the third-party status page
+    provider; audit logs are written to AWS Kinesis or GCP Pub/Sub sinks or
+    pulled from the Cloud Ops API; metrics are Prometheus-scrape; Nexus is
+    queue-poll. Producing an AsyncAPI 2.6 description of a Temporal Cloud
+    webhook surface would require fabricating channels, messages, and bindings
+    that the vendor does not document. The correct artifact for this provider
+    is this review.
+  alternative_artifacts:
+    - openapi/cloud-ops-api.yml — existing OpenAPI for the Temporal Cloud Ops
+      HTTP API (control plane).
+    - Future, if Temporal adds first-party webhooks for billing, namespace
+      lifecycle, or replication events, an AsyncAPI 2.6 description should be
+      produced at that time and referenced from apis.yml.
+sources_checked:
+  - url: https://docs.temporal.io/cloud
+    note: Temporal Cloud guide index. No webhook section. Lists Audit logging,
+      Metrics, Notifications, Actions, Nexus as separate feature areas.
+  - url: https://docs.temporal.io/cloud/notifications
+    note: Confirms email-based administrative notifications and third-party
+      status page. No customer webhook delivery.
+  - url: https://docs.temporal.io/cloud/audit-logging
+    note: Audit logs delivered via AWS Kinesis or GCP Pub/Sub sinks, or pulled
+      from Cloud Ops API. No webhook.
+  - url: https://docs.temporal.io/cloud/metrics
+    note: Prometheus / OpenMetrics scrape at metrics.temporal.io. Pull only.
+  - url: https://docs.temporal.io/cloud/actions
+    note: Actions are billable units (Workflow, Activity, Timer, Signal,
+      Query, Update, Schedule, Nexus, Export, Fairness, Capacity), not webhook
+      events.
+  - url: https://docs.temporal.io/cloud/pricing
+    note: Pricing reference. No event subscription product.
+  - url: https://docs.temporal.io/nexus
+    note: Nexus handlers poll task queues. Not HTTP push.
+  - url: https://docs.temporal.io/ops
+    note: Cloud Ops API documentation. Control plane only.
+  - url: https://saas-api.tmprl.cloud/docs/httpapi.html
+    note: Cloud Ops HTTP API reference. No webhook subscription endpoints.
+  - url: https://status.temporal.io
+    note: Third-party status page with vendor-managed subscriptions.
+  - url: openapi/cloud-ops-api.yml
+    note: Local OpenAPI for Cloud Ops API. No callbacks, no webhook objects.
+  - url: https://github.com/temporalio/api
+    note: gRPC Temporal Server API definitions. Workflow/Operator/Health
+      services. SDK long-poll, not HTTP push.
+  - url: https://github.com/temporalio/cloud-api
+    note: Cloud Ops API proto definitions. Request/response only.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

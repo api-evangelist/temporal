@@ -2,12 +2,20 @@
   "repo": "temporal",
   "feeds": [
     {
-      "source": "https://temporal.io/blog",
+      "source": "https://temporal.io/blog/feed.xml",
       "feed_url": "https://temporal.io/blog/feed.xml",
-      "title": "Temporal Blog",
-      "saved": 44
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://temporal.io/pricing",
+      "feed_url": "https://temporal.io/pricing",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 57,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 70,
+  "fetched": "2026-06-01T23:35:02Z"
 }
