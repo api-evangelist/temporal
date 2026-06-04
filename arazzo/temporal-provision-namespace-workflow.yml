@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Provision a Namespace and Wait Until Ready
+  summary: Create a Temporal Cloud Namespace and poll its async operation until it finishes.
+  description: >-
+    The Temporal Cloud control plane provisions Namespaces asynchronously. This
+    workflow creates a Namespace from a supplied spec, captures the returned
+    asyncOperationId, and then polls the async operation until it leaves the
+    pending state, branching on whether the provisioning finished successfully
+    or failed. It finally reads the live Namespace to return its current state.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: provision-namespace
+  summary: Create a Namespace and wait for its provisioning async operation to finish.
+  description: >-
+    Mirrors the "start an execution then poll until completed" pattern using the
+    Temporal Cloud control plane: createNamespace returns an asyncOperationId,
+    which getAsyncOperation is polled against until its state is no longer
+    pending, then getNamespace returns the final resource.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - name
+    - region
+    - retentionDays
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      name:
+        type: string
+        description: The Namespace name to create (e.g. my-namespace).
+      region:
+        type: string
+        description: The region id to provision the Namespace into (e.g. aws-us-east-1).
+      retentionDays:
+        type: integer
+        description: Workflow execution retention period in days.
+  steps:
+  - stepId: createNamespace
+    description: >-
+      Create the Namespace from the supplied spec. The control plane returns the
+      provisioned namespace identifier and an asyncOperationId to track progress.
+    operationId: createNamespace
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    requestBody:
+      contentType: application/json
+      payload:
+        spec:
+          name: $inputs.name
+          region: $inputs.region
+          retentionDays: $inputs.retentionDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      namespace: $response.body#/namespace
+      asyncOperationId: $response.body#/asyncOperationId
+  - stepId: pollOperation
+    description: >-
+      Poll the async operation status. The AsyncOperation.state field is checked;
+      anything other than the in-flight pending value is treated as terminal.
+    operationId: getAsyncOperation
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: asyncOperationId
+      in: path
+      value: $steps.createNamespace.outputs.asyncOperationId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      failureReason: $response.body#/failureReason
+    onSuccess:
+    - name: operationStillPending
+      type: goto
+      stepId: pollOperation
+      criteria:
+      - context: $response.body
+        condition: $.state == "pending"
+        type: jsonpath
+    - name: operationFinished
+      type: goto
+      stepId: getNamespace
+      criteria:
+      - context: $response.body
+        condition: $.state != "pending"
+        type: jsonpath
+  - stepId: getNamespace
+    description: >-
+      Read the provisioned Namespace to return its current state and resource
+      version once the async operation is no longer pending.
+    operationId: getNamespace
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: namespace
+      in: path
+      value: $steps.createNamespace.outputs.namespace
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      namespaceState: $response.body#/state
+      resourceVersion: $response.body#/resourceVersion
+  outputs:
+    namespace: $steps.createNamespace.outputs.namespace
+    asyncOperationId: $steps.createNamespace.outputs.asyncOperationId
+    operationState: $steps.pollOperation.outputs.state
+    namespaceState: $steps.getNamespace.outputs.namespaceState

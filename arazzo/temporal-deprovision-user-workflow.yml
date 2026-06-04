@@ -1,0 +1,82 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Deprovision a User and Confirm Removal
+  summary: Read a User to confirm it exists, delete it, then verify it is gone.
+  description: >-
+    Offboarding from Temporal Cloud removes a User account. This workflow reads
+    the User to confirm the target exists and capture its email, deletes the
+    User, then re-reads expecting a 404 to verify removal. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: deprovision-user
+  summary: Confirm, delete, and verify removal of a User.
+  description: >-
+    Chains getUser (confirm it exists), deleteUser (remove it), and a final
+    getUser that branches on a 404 status to verify deletion.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - userId
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      userId:
+        type: string
+        description: The User identifier to deprovision.
+  steps:
+  - stepId: confirmUser
+    description: >-
+      Read the User to confirm it exists before deletion and capture its email
+      for the audit record.
+    operationId: getUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: userId
+      in: path
+      value: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      stateBeforeDelete: $response.body#/state
+  - stepId: deleteUser
+    description: >-
+      Delete the User account. A 200 indicates the deletion was accepted.
+    operationId: deleteUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: userId
+      in: path
+      value: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: verifyGone
+    description: >-
+      Re-read the User expecting a 404 Not Found, confirming the account was
+      removed.
+    operationId: getUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: userId
+      in: path
+      value: $inputs.userId
+    successCriteria:
+    - condition: $statusCode == 404
+    outputs:
+      finalStatus: $statusCode
+  outputs:
+    stateBeforeDelete: $steps.confirmUser.outputs.stateBeforeDelete
+    finalStatus: $steps.verifyGone.outputs.finalStatus

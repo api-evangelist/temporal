@@ -1,0 +1,84 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Provision a User and Verify Membership
+  summary: Create a User, then page Users to confirm the new account appears.
+  description: >-
+    Onboarding into Temporal Cloud means creating a User with an email and an
+    access spec. This workflow creates the User, then lists Users so a caller can
+    confirm the new account is present and capture the page token for further
+    paging. Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: provision-user
+  summary: Create a User and confirm it via the Users listing.
+  description: >-
+    Chains createUser with listUsers so the newly created account can be
+    confirmed against the live directory.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - email
+    - access
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      email:
+        type: string
+        description: The email address of the User to create.
+      access:
+        type: object
+        description: The access spec object granting the User roles and scopes.
+      pageSize:
+        type: integer
+        description: Number of Users to return per page when confirming.
+        default: 50
+  steps:
+  - stepId: createUser
+    description: >-
+      Create the User from the supplied email and access spec.
+    operationId: createUser
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    requestBody:
+      contentType: application/json
+      payload:
+        spec:
+          email: $inputs.email
+          access: $inputs.access
+    successCriteria:
+    - condition: $statusCode == 200
+    onSuccess:
+    - name: confirm
+      type: goto
+      stepId: confirmUser
+      criteria:
+      - condition: $statusCode == 200
+  - stepId: confirmUser
+    description: >-
+      List Users to confirm the new account is present in the account directory
+      and capture the page token for any further paging.
+    operationId: listUsers
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: pageSize
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      users: $response.body#/users
+      nextPageToken: $response.body#/nextPageToken
+  outputs:
+    users: $steps.confirmUser.outputs.users
+    nextPageToken: $steps.confirmUser.outputs.nextPageToken

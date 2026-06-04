@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Provision a Namespace in a Validated Region
+  summary: Confirm a region is available, create a Namespace there, then poll until provisioning finishes.
+  description: >-
+    Namespaces must be placed in a supported Temporal Cloud region. This workflow
+    lists the available regions, branches to fail early if none are returned,
+    creates a Namespace in the requested region, and polls the resulting async
+    operation until it is no longer pending. Validating the region list before
+    provisioning avoids submitting a Namespace into an unsupported location.
+    Every step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: provision-namespace-in-region
+  summary: Validate regions, create a Namespace, and poll its async operation to completion.
+  description: >-
+    Chains listRegions (branching on whether any region exists), createNamespace,
+    and getAsyncOperation polled until the operation state leaves pending.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - name
+    - region
+    - retentionDays
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      name:
+        type: string
+        description: The Namespace name to create.
+      region:
+        type: string
+        description: The region id to provision the Namespace into.
+      retentionDays:
+        type: integer
+        description: Workflow execution retention period in days.
+  steps:
+  - stepId: listRegions
+    description: >-
+      List the available regions. The flow branches to fail early when no regions
+      are returned, otherwise it proceeds to create the Namespace.
+    operationId: listRegions
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      regions: $response.body#/regions
+    onSuccess:
+    - name: regionsAvailable
+      type: goto
+      stepId: createNamespace
+      criteria:
+      - context: $response.body
+        condition: $.regions.length > 0
+        type: jsonpath
+    - name: noRegions
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.regions.length == 0
+        type: jsonpath
+  - stepId: createNamespace
+    description: >-
+      Create the Namespace in the requested region and capture the
+      asyncOperationId returned for tracking provisioning progress.
+    operationId: createNamespace
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    requestBody:
+      contentType: application/json
+      payload:
+        spec:
+          name: $inputs.name
+          region: $inputs.region
+          retentionDays: $inputs.retentionDays
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      namespace: $response.body#/namespace
+      asyncOperationId: $response.body#/asyncOperationId
+  - stepId: pollOperation
+    description: >-
+      Poll the async operation until its state field is no longer the in-flight
+      pending value, indicating provisioning has reached a terminal state.
+    operationId: getAsyncOperation
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: asyncOperationId
+      in: path
+      value: $steps.createNamespace.outputs.asyncOperationId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      failureReason: $response.body#/failureReason
+    onSuccess:
+    - name: stillPending
+      type: goto
+      stepId: pollOperation
+      criteria:
+      - context: $response.body
+        condition: $.state == "pending"
+        type: jsonpath
+  outputs:
+    regions: $steps.listRegions.outputs.regions
+    namespace: $steps.createNamespace.outputs.namespace
+    operationState: $steps.pollOperation.outputs.state

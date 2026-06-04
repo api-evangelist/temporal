@@ -64,6 +64,42 @@ apis:
     - type: NaftikoCapability
       url: capabilities/cloud-ops-users.yaml
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/temporal-audit-api-keys-for-owner-workflow.yml
+      name: Temporal Audit API Keys for an Owner
+      summary: List a Service Account's API keys and load the detail of one of them.
+    - url: arazzo/temporal-delete-namespace-workflow.yml
+      name: Temporal Delete a Namespace and Confirm Removal
+      summary: Verify a Namespace exists, delete it, then confirm it is gone.
+    - url: arazzo/temporal-deprovision-user-workflow.yml
+      name: Temporal Deprovision a User and Confirm Removal
+      summary: Read a User to confirm it exists, delete it, then verify it is gone.
+    - url: arazzo/temporal-find-namespace-by-name-workflow.yml
+      name: Temporal Find a Namespace by Name and Load Its Details
+      summary: Page through Namespaces to find one by name, then load its full detail record.
+    - url: arazzo/temporal-issue-service-account-key-workflow.yml
+      name: Temporal Issue an API Key for a New Service Account
+      summary: Create a Service Account, read it back, then issue an API key owned by it.
+    - url: arazzo/temporal-provision-namespace-in-region-workflow.yml
+      name: Temporal Provision a Namespace in a Validated Region
+      summary: Confirm a region is available, create a Namespace there, then poll until provisioning finishes.
+    - url: arazzo/temporal-provision-namespace-workflow.yml
+      name: Temporal Provision a Namespace and Wait Until Ready
+      summary: Create a Temporal Cloud Namespace and poll its async operation until it finishes.
+    - url: arazzo/temporal-provision-user-workflow.yml
+      name: Temporal Provision a User and Verify Membership
+      summary: Create a User, then page Users to confirm the new account appears.
+    - url: arazzo/temporal-rotate-api-key-workflow.yml
+      name: Temporal Rotate an API Key for an Owner
+      summary: Read the owner of an existing key, mint a replacement key, then revoke the old one.
+    - url: arazzo/temporal-track-async-operation-workflow.yml
+      name: Temporal Track an Async Operation to Completion
+      summary: Poll a Temporal Cloud async operation until it leaves the pending state, branching on outcome.
+    - url: arazzo/temporal-update-namespace-workflow.yml
+      name: Temporal Update a Namespace With Optimistic Concurrency
+      summary: Read a Namespace, update its spec using the current resourceVersion, then confirm the change.
   - type: LinkedIn
     url: https://www.linkedin.com/company/temporal-technologies
   - type: Portal

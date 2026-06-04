@@ -1,0 +1,86 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Find a Namespace by Name and Load Its Details
+  summary: Page through Namespaces to find one by name, then load its full detail record.
+  description: >-
+    The list Namespaces endpoint is paginated with a pageToken. This workflow
+    lists the first page of Namespaces, branches on whether more pages remain so
+    a caller can continue paging, and when a target namespace identifier is found
+    it loads the full Namespace detail record. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: find-namespace-by-name
+  summary: List Namespaces and load the detail record for a chosen namespace.
+  description: >-
+    Chains listNamespaces (first page, branching on the presence of a
+    nextPageToken) with getNamespace to load the full detail of the target
+    namespace.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - namespace
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      namespace:
+        type: string
+        description: The namespace identifier whose detail record should be loaded.
+      pageSize:
+        type: integer
+        description: Number of Namespaces to return per page.
+        default: 50
+  steps:
+  - stepId: listNamespaces
+    description: >-
+      List the first page of Namespaces. The nextPageToken indicates whether
+      additional pages remain to be fetched.
+    operationId: listNamespaces
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: pageSize
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      namespaces: $response.body#/namespaces
+      nextPageToken: $response.body#/nextPageToken
+    onSuccess:
+    - name: loadDetail
+      type: goto
+      stepId: loadNamespace
+      criteria:
+      - condition: $statusCode == 200
+  - stepId: loadNamespace
+    description: >-
+      Load the full Namespace detail record for the target namespace identifier.
+    operationId: getNamespace
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: namespace
+      in: path
+      value: $inputs.namespace
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      namespace: $response.body#/namespace
+      state: $response.body#/state
+      resourceVersion: $response.body#/resourceVersion
+      endpoints: $response.body#/endpoints
+  outputs:
+    nextPageToken: $steps.listNamespaces.outputs.nextPageToken
+    namespace: $steps.loadNamespace.outputs.namespace
+    state: $steps.loadNamespace.outputs.state
+    endpoints: $steps.loadNamespace.outputs.endpoints

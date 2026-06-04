@@ -1,0 +1,99 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Audit API Keys for an Owner
+  summary: List a Service Account's API keys and load the detail of one of them.
+  description: >-
+    Auditing automation credentials means knowing which API keys belong to a
+    given Service Account. This workflow lists API keys filtered by ownerId and
+    ownerType, branches on whether any keys were returned, and loads the detail
+    record for the first key so its expiry and state can be inspected. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: audit-api-keys-for-owner
+  summary: List API keys for an owner and inspect the first key's detail.
+  description: >-
+    Chains listApiKeys (filtered by ownerId and ownerType, branching on whether
+    keys exist) with getApiKey to load the first matching key's detail.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - ownerId
+    - ownerType
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      ownerId:
+        type: string
+        description: The owner id to filter API keys by (e.g. a Service Account id).
+      ownerType:
+        type: string
+        description: The owner type to filter API keys by (e.g. serviceaccount or user).
+  steps:
+  - stepId: listKeys
+    description: >-
+      List API keys owned by the supplied owner. The flow branches on whether the
+      returned apiKeys array contains any entries.
+    operationId: listApiKeys
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: ownerId
+      in: query
+      value: $inputs.ownerId
+    - name: ownerType
+      in: query
+      value: $inputs.ownerType
+    - name: pageSize
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      apiKeys: $response.body#/apiKeys
+      firstKeyId: $response.body#/apiKeys/0/id
+      nextPageToken: $response.body#/nextPageToken
+    onSuccess:
+    - name: hasKeys
+      type: goto
+      stepId: inspectKey
+      criteria:
+      - context: $response.body
+        condition: $.apiKeys.length > 0
+        type: jsonpath
+    - name: noKeys
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.apiKeys.length == 0
+        type: jsonpath
+  - stepId: inspectKey
+    description: >-
+      Load the detail of the first API key returned to inspect its display name,
+      expiry, and state.
+    operationId: getApiKey
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: keyId
+      in: path
+      value: $steps.listKeys.outputs.firstKeyId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      expiryTime: $response.body#/spec/expiryTime
+      displayName: $response.body#/spec/displayName
+  outputs:
+    apiKeys: $steps.listKeys.outputs.apiKeys
+    inspectedKeyState: $steps.inspectKey.outputs.state
+    inspectedKeyExpiry: $steps.inspectKey.outputs.expiryTime

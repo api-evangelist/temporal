@@ -1,0 +1,81 @@
+arazzo: 1.0.1
+info:
+  title: Temporal Track an Async Operation to Completion
+  summary: Poll a Temporal Cloud async operation until it leaves the pending state, branching on outcome.
+  description: >-
+    Most Temporal Cloud control-plane mutations run asynchronously and hand back
+    an asyncOperationId. This workflow polls a single async operation until its
+    state field is no longer pending, then branches on whether it finished
+    successfully or failed so a caller can surface the failureReason. It is the
+    reusable analog of waiting for a long-running workflow execution to reach a
+    terminal status. Every step spells out its request inline so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: cloudOpsApi
+  url: ../openapi/cloud-ops-api.yml
+  type: openapi
+workflows:
+- workflowId: track-async-operation
+  summary: Poll an async operation until terminal and branch on success or failure.
+  description: >-
+    Repeatedly calls getAsyncOperation, looping while the state field equals
+    pending, then branching on whether the terminal state indicates failure
+    (failureReason populated) or success.
+  inputs:
+    type: object
+    required:
+    - bearerToken
+    - asyncOperationId
+    properties:
+      bearerToken:
+        type: string
+        description: API key used as the Bearer token for Authorization.
+      asyncOperationId:
+        type: string
+        description: The async operation identifier to track to completion.
+  steps:
+  - stepId: pollOperation
+    description: >-
+      Poll the async operation status. While state equals pending the step loops
+      back onto itself; once terminal it branches on the outcome.
+    operationId: getAsyncOperation
+    parameters:
+    - name: Authorization
+      in: header
+      value: "Bearer $inputs.bearerToken"
+    - name: asyncOperationId
+      in: path
+      value: $inputs.asyncOperationId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      state: $response.body#/state
+      operationType: $response.body#/operationType
+      failureReason: $response.body#/failureReason
+      finishedTime: $response.body#/finishedTime
+    onSuccess:
+    - name: stillPending
+      type: goto
+      stepId: pollOperation
+      criteria:
+      - context: $response.body
+        condition: $.state == "pending"
+        type: jsonpath
+    - name: failed
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.failureReason != null
+        type: jsonpath
+    - name: succeeded
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.state != "pending"
+        type: jsonpath
+  outputs:
+    state: $steps.pollOperation.outputs.state
+    operationType: $steps.pollOperation.outputs.operationType
+    failureReason: $steps.pollOperation.outputs.failureReason
+    finishedTime: $steps.pollOperation.outputs.finishedTime
