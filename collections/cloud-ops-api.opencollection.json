@@ -1,0 +1,421 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temporal Cloud Operations API",
+    "version": "2024-05-13-00"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Namespaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all Namespaces in the account."
+        },
+        {
+          "info": {
+            "name": "Create a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Namespace in the account."
+        },
+        {
+          "info": {
+            "name": "Get a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific Namespace."
+        },
+        {
+          "info": {
+            "name": "Delete a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Namespace."
+        },
+        {
+          "info": {
+            "name": "Update a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace/update",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a specific Namespace configuration."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/users",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all Users in the account."
+        },
+        {
+          "info": {
+            "name": "Create a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new User in the account."
+        },
+        {
+          "info": {
+            "name": "Get a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific User."
+        },
+        {
+          "info": {
+            "name": "Delete a User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/users/:userId",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific User."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Service Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Service Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/service-accounts",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all Service Accounts in the account."
+        },
+        {
+          "info": {
+            "name": "Create a Service Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/service-accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Service Account."
+        },
+        {
+          "info": {
+            "name": "Get a Service Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/service-accounts/:serviceAccountId",
+            "params": [
+              {
+                "name": "serviceAccountId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific Service Account."
+        },
+        {
+          "info": {
+            "name": "Delete a Service Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/service-accounts/:serviceAccountId",
+            "params": [
+              {
+                "name": "serviceAccountId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Service Account."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Api Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ownerId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ownerType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all API keys in the account."
+        },
+        {
+          "info": {
+            "name": "Create an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API key for authentication."
+        },
+        {
+          "info": {
+            "name": "Get an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys/:keyId",
+            "params": [
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific API key."
+        },
+        {
+          "info": {
+            "name": "Delete an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys/:keyId",
+            "params": [
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific API key."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Regions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/regions"
+          },
+          "docs": "Returns a list of all available regions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Async Operations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Async Operation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/async-operations/:asyncOperationId",
+            "params": [
+              {
+                "name": "asyncOperationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the status of an asynchronous operation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
