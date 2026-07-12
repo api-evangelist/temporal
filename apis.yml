@@ -55,6 +55,14 @@ apis:
       - type: OpenAPI
         url: openapi/cloud-ops-api.yml
 common:
+  - type: TrustCenter
+    url: security/temporal-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/temporal-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/temporal-domain-security.yml
+  - type: Authentication
+    url: authentication/temporal-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/temporal/overview
   - type: Arazzo
