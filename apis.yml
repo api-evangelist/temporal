@@ -55,6 +55,8 @@ apis:
       - type: OpenAPI
         url: openapi/cloud-ops-api.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/temporal-agentic-access.yml
   - type: TrustCenter
     url: security/temporal-trust-center.yml
   - type: VulnerabilityDisclosure
