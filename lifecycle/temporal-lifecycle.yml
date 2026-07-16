@@ -1,0 +1,27 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.temporal.io/ops
+description: >-
+  Versioning, deprecation, status, and support posture for the Temporal Cloud
+  Operations API and the Temporal Platform.
+versioning:
+  scheme: dated-api-version
+  current: '2024-05-13-00'
+  location: openapi info.version (Cloud Ops API); dated snapshots of the CloudService gRPC contract
+  docs: https://docs.temporal.io/ops
+  note: >-
+    The Cloud Ops API is versioned by dated API-version snapshots; the gRPC
+    contract lives in github.com/temporalio/cloud-api. Client SDKs are versioned
+    independently via semantic versioning on their registries.
+deprecation:
+  policy_url: https://docs.temporal.io/temporal-cloud/service-availability
+  sunset_header: false
+  deprecation_header: false
+  note: No RFC 8594 Sunset/Deprecation headers are documented for the Cloud Ops API.
+sla:
+  url: https://docs.temporal.io/cloud/sla
+  note: Temporal Cloud publishes an availability SLA per service tier.
+status_page: https://status.temporal.io
+changelog: https://temporal.io/change-log
+support: https://docs.temporal.io/cloud/support
+deprecated_operations: []

@@ -1,0 +1,57 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/cloud-ops-api.yml
+description: >-
+  Entity-relationship model for the Temporal Cloud Operations API control plane,
+  derived from OpenAPI component schemas and id-reference fields.
+entities:
+  - name: Namespace
+    identifier: namespace
+    version_field: resourceVersion
+    fields: [namespace, resourceVersion, spec, state, asyncOperationId, endpoints, createdTime, lastModifiedTime]
+    spec_fields: [name, region, retentionDays, codecServer, mtlsAuth]
+  - name: User
+    identifier: id
+    version_field: resourceVersion
+    fields: [id, resourceVersion, spec, state, createdTime, lastModifiedTime]
+    spec_fields: [email, access]
+  - name: ServiceAccount
+    identifier: id
+    version_field: resourceVersion
+    fields: [id, resourceVersion, spec, state, createdTime]
+    spec_fields: [name, access]
+  - name: ApiKey
+    identifier: id
+    version_field: resourceVersion
+    fields: [id, resourceVersion, spec, state, createdTime]
+    spec_fields: [displayName, ownerId, ownerType, expiryTime]
+  - name: Region
+    identifier: id
+    fields: [id, cloudProvider, location]
+  - name: AsyncOperation
+    identifier: id
+    fields: [id, state, checkDuration, operationType, startedTime, finishedTime, failureReason]
+relationships:
+  - from: Namespace
+    to: Region
+    type: belongs_to
+    via: spec.region
+    note: Namespace.spec.region references Region.id.
+  - from: Namespace
+    to: AsyncOperation
+    type: has_one
+    via: asyncOperationId
+    note: Mutations return an asyncOperationId to poll via getAsyncOperation.
+  - from: ApiKey
+    to: User
+    type: belongs_to
+    via: spec.ownerId
+    note: When spec.ownerType is 'user', spec.ownerId references User.id.
+  - from: ApiKey
+    to: ServiceAccount
+    type: belongs_to
+    via: spec.ownerId
+    note: When spec.ownerType is 'service-account', spec.ownerId references ServiceAccount.id.
+notes:
+  - resourceVersion powers optimistic concurrency on all versioned entities.
+  - ApiKey owner is polymorphic, discriminated by spec.ownerType (user | service-account).

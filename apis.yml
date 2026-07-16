@@ -14,7 +14,7 @@ tags:
   - ProCode_API_Composition
   - Workflows
 created: '2026-03-03'
-modified: '2026-05-30'
+modified: '2026-06-20'
 url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
@@ -54,7 +54,37 @@ apis:
         url: https://github.com/temporalio/cloud-api
       - type: OpenAPI
         url: openapi/cloud-ops-api.yml
+      - type: Overlay
+        url: overlays/temporal-cloud-ops-api-overlay.yaml
+      - type: Protobuf
+        url: grpc/temporal-cloudservice.proto
+      - type: MCPServer
+        url: mcp/temporal-mcp.yml
+      - type: Conformance
+        url: conformance/temporal-conformance.yml
+      - type: ErrorCatalog
+        url: errors/temporal-error-codes.yml
+      - type: Conventions
+        url: conventions/temporal-conventions.yml
+      - type: DataModel
+        url: data-model/temporal-data-model.yml
 common:
+  - type: Packages
+    url: packages/temporal-packages.yml
+  - type: WellKnown
+    url: well-known/temporal-well-known.yml
+  - type: SecurityTxt
+    url: well-known/temporal-security.txt
+  - type: LLMsTxt
+    url: llms/temporal-llms.txt
+  - type: Lifecycle
+    url: lifecycle/temporal-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/temporal-changelog.yml
+  - type: CLI
+    url: cli/temporal-cli.yml
+  - type: Sandbox
+    url: sandbox/temporal-sandbox.yml
   - type: AgenticAccess
     url: agentic-access/temporal-agentic-access.yml
   - type: TrustCenter

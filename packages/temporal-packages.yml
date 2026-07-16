@@ -1,0 +1,96 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.temporal.io/develop
+description: >-
+  First-party Temporal client SDKs and command-line tools. SDKs are used to
+  author Workflows and Activities and connect Workers to a Temporal Server or
+  Temporal Cloud; the CLIs administer the server and Temporal Cloud. The Cloud
+  Ops API (openapi/cloud-ops-api.yml) is called directly over HTTP/gRPC and via
+  the tcld CLI.
+packages:
+  - language: go
+    registry: go-modules
+    name: go.temporal.io/sdk
+    url: https://pkg.go.dev/go.temporal.io/sdk
+    source: https://github.com/temporalio/sdk-go
+    install: go get go.temporal.io/sdk
+    official: true
+  - language: typescript
+    registry: npm
+    name: "@temporalio/client"
+    url: https://www.npmjs.com/package/@temporalio/client
+    source: https://github.com/temporalio/sdk-typescript
+    install: npm install @temporalio/client
+    official: true
+  - language: typescript
+    registry: npm
+    name: "@temporalio/worker"
+    url: https://www.npmjs.com/package/@temporalio/worker
+    source: https://github.com/temporalio/sdk-typescript
+    install: npm install @temporalio/worker
+    official: true
+  - language: typescript
+    registry: npm
+    name: "@temporalio/workflow"
+    url: https://www.npmjs.com/package/@temporalio/workflow
+    source: https://github.com/temporalio/sdk-typescript
+    install: npm install @temporalio/workflow
+    official: true
+  - language: typescript
+    registry: npm
+    name: "@temporalio/activity"
+    url: https://www.npmjs.com/package/@temporalio/activity
+    source: https://github.com/temporalio/sdk-typescript
+    install: npm install @temporalio/activity
+    official: true
+  - language: python
+    registry: pypi
+    name: temporalio
+    url: https://pypi.org/project/temporalio/
+    source: https://github.com/temporalio/sdk-python
+    install: pip install temporalio
+    official: true
+  - language: java
+    registry: maven-central
+    name: io.temporal:temporal-sdk
+    url: https://central.sonatype.com/artifact/io.temporal/temporal-sdk
+    source: https://github.com/temporalio/sdk-java
+    install: "implementation 'io.temporal:temporal-sdk'"
+    official: true
+  - language: dotnet
+    registry: nuget
+    name: Temporalio
+    url: https://www.nuget.org/packages/Temporalio
+    source: https://github.com/temporalio/sdk-dotnet
+    install: dotnet add package Temporalio
+    official: true
+  - language: ruby
+    registry: rubygems
+    name: temporalio
+    url: https://rubygems.org/gems/temporalio
+    source: https://github.com/temporalio/sdk-ruby
+    install: gem install temporalio
+    official: true
+  - language: php
+    registry: packagist
+    name: temporal/sdk
+    url: https://packagist.org/packages/temporal/sdk
+    source: https://github.com/temporalio/sdk-php
+    install: composer require temporal/sdk
+    official: true
+  - language: cli
+    registry: github
+    name: temporal
+    url: https://github.com/temporalio/cli
+    source: https://github.com/temporalio/cli
+    install: brew install temporal
+    official: true
+    note: Temporal CLI for workflow management and running a local dev server.
+  - language: cli
+    registry: github
+    name: tcld
+    url: https://github.com/temporalio/tcld
+    source: https://github.com/temporalio/tcld
+    install: brew install temporalio/brew/tcld
+    official: true
+    note: Temporal Cloud CLI for account, namespace, user, and API-key administration (the Cloud Ops API command surface).

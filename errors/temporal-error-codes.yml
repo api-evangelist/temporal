@@ -1,0 +1,69 @@
+generated: '2026-06-20'
+method: derived
+source: grpc/temporal-cloudservice.proto
+format: grpc-status
+description: >-
+  The Temporal Cloud Ops API surfaces errors as a grpc-gateway HTTP mapping of
+  gRPC status codes. The OpenAPI definition declares only 200 responses, so this
+  catalog is derived from the standard grpc-gateway error envelope and gRPC/HTTP
+  status mapping used by the underlying CloudService gRPC API. Codes are the
+  canonical google.rpc.Code set; masking/remediation is generic guidance, not a
+  provider-published error registry.
+envelope:
+  media_type: application/json
+  shape:
+    code: integer         # gRPC status code
+    message: string       # human-readable error message
+    details: array        # optional google.protobuf.Any details
+  note: google.rpc.Status as emitted by grpc-gateway; HTTP status is mapped from the gRPC code.
+errors:
+  - grpc_code: 3
+    grpc_status: INVALID_ARGUMENT
+    http_status: 400
+    meaning: Request was malformed or a field failed validation.
+    action: Fix the request body or query parameters and retry.
+  - grpc_code: 16
+    grpc_status: UNAUTHENTICATED
+    http_status: 401
+    meaning: Missing, malformed, or expired API key bearer token.
+    action: Provide a valid Authorization Bearer API key.
+  - grpc_code: 7
+    grpc_status: PERMISSION_DENIED
+    http_status: 403
+    meaning: Caller lacks the required account- or namespace-level role for the operation.
+    action: Grant the required RBAC role to the User or Service Account.
+  - grpc_code: 5
+    grpc_status: NOT_FOUND
+    http_status: 404
+    meaning: Referenced resource (namespace, user, service account, api key) does not exist.
+    action: Verify the resource identifier.
+  - grpc_code: 6
+    grpc_status: ALREADY_EXISTS
+    http_status: 409
+    meaning: A resource with the same identity already exists.
+    action: Use a unique name/identifier or update the existing resource.
+  - grpc_code: 9
+    grpc_status: FAILED_PRECONDITION
+    http_status: 400
+    meaning: Optimistic-concurrency conflict (stale resourceVersion) or invalid state transition.
+    action: Re-read the resource, supply the current resourceVersion, and retry.
+  - grpc_code: 8
+    grpc_status: RESOURCE_EXHAUSTED
+    http_status: 429
+    meaning: Rate or quota limit exceeded.
+    action: Back off and retry; see rate-limits/temporal-rate-limits.yml.
+  - grpc_code: 4
+    grpc_status: DEADLINE_EXCEEDED
+    http_status: 504
+    meaning: The operation did not complete within its deadline.
+    action: Retry idempotently; poll the async operation for long-running changes.
+  - grpc_code: 14
+    grpc_status: UNAVAILABLE
+    http_status: 503
+    meaning: Service temporarily unavailable.
+    action: Retry with exponential backoff.
+  - grpc_code: 13
+    grpc_status: INTERNAL
+    http_status: 500
+    meaning: Unexpected server error.
+    action: Retry; if persistent contact Temporal support.

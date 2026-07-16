@@ -1,0 +1,41 @@
+generated: '2026-06-20'
+method: derived
+source: openapi/cloud-ops-api.yml
+description: >-
+  Cross-cutting standards conformance for the Temporal Cloud Operations API,
+  derived from its OpenAPI 3.1 definition and the published gRPC service proto.
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: securitySchemes declares only http bearer (API Key), no oauth2 flows
+  - id: oidc
+    conforms: false
+  - id: http-bearer
+    conforms: true
+    evidence: securitySchemes.BearerAuth type http scheme bearer (bearerFormat API Key)
+  - id: mutual-tls
+    conforms: true
+    evidence: >-
+      mTLS is used at the namespace data-plane layer (Namespace.spec.mtlsAuth);
+      Cloud Ops control-plane uses API-key bearer auth
+  - id: grpc
+    conforms: true
+    evidence: HTTP API is a grpc-gateway facade over temporal.api.cloud.cloudservice.v1.CloudService (grpc/temporal-cloudservice.proto)
+  - id: openapi-3.1
+    conforms: true
+    evidence: openapi field is 3.1.0
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: no application/problem+json responses; errors follow grpc-gateway google.rpc.Status envelope
+  - id: cursor-pagination
+    conforms: true
+    evidence: list operations use pageSize/pageToken request params and nextPageToken response field
+  - id: optimistic-concurrency
+    conforms: true
+    evidence: resource schemas carry resourceVersion; UpdateNamespaceRequest requires resourceVersion
+  - id: rbac
+    conforms: true
+    evidence: account-level and namespace-level roles enforced per operation (see authentication/temporal-authentication.yml)
+  - id: rfc8594-sunset-deprecation
+    conforms: false
+    evidence: no Sunset/Deprecation headers documented for the Cloud Ops API

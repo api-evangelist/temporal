@@ -1,13 +1,43 @@
-generated: '2026-07-11'
-method: derived
+generated: '2026-06-20'
+method: searched
 source: openapi/cloud-ops-api.yml
+docs: https://docs.temporal.io/cloud/api-keys
 summary:
   types:
   - http
+  http_schemes:
+  - bearer
+  api_key_in:
+  - header
+  authorization: rbac
 schemes:
 - name: BearerAuth
   type: http
   scheme: bearer
   bearerFormat: API Key
+  header: Authorization
+  value: "Bearer <API_KEY>"
+  docs: https://docs.temporal.io/cloud/api-keys
   sources:
   - openapi/cloud-ops-api.yml
+authorization:
+  model: rbac
+  docs: https://docs.temporal.io/cloud/users
+  account_roles:
+    - {role: Account Owner, description: Full account administration access.}
+    - {role: Account Admin, description: Manage namespaces, users, and service accounts.}
+    - {role: Account Developer, description: Create namespaces and manage Nexus endpoints.}
+    - {role: Finance Admin, description: View usage and billing information.}
+    - {role: Account Read, description: Read-only access to account resources.}
+  namespace_roles:
+    - {role: Namespace Admin, description: Full access to namespace configuration and data.}
+    - {role: Namespace Write, description: Execute workflows and modify workflow data.}
+    - {role: Namespace Read, description: Read-only access to namespace data.}
+  note: >-
+    Each Cloud Ops operation requires a valid API key plus the appropriate
+    account- or namespace-level role. Namespace roles are scoped per namespace.
+data_plane_note: >-
+  The Temporal Workflow (data-plane) API and self-hosted server authenticate
+  namespace connections with mutual TLS (mTLS) client certificates or, on
+  Temporal Cloud, API keys; the Cloud Ops control-plane API uses API-key bearer
+  auth only.

@@ -1,0 +1,51 @@
+generated: '2026-06-20'
+method: searched
+source: https://saas-api.tmprl.cloud/docs/httpapi.html
+derived_from: openapi/cloud-ops-api.yml
+description: >-
+  Cross-cutting request/response conventions for the Temporal Cloud Operations
+  API, from the published HTTP API reference and derived from the OpenAPI.
+authentication:
+  style: http-bearer
+  header: Authorization
+  format: "Bearer <API_KEY>"
+  authorization: RBAC (account-level + namespace-level roles)
+  ref: authentication/temporal-authentication.yml
+pagination:
+  style: cursor
+  request_params:
+    - pageSize    # query, integer
+    - pageToken   # query, string
+  response_field: nextPageToken
+  note: List operations return nextPageToken; pass it back as pageToken to page forward.
+optimistic_concurrency:
+  field: resourceVersion
+  applies_to: [Namespace, User, ServiceAccount, ApiKey]
+  note: >-
+    Read a resource to obtain its resourceVersion, then include it on update to
+    guard against lost updates. Update operations require resourceVersion.
+async_operations:
+  field: asyncOperationId
+  poll_operation: getAsyncOperation
+  states_field: state
+  note: >-
+    Mutating control-plane calls (create/update/delete namespace, etc.) return an
+    asyncOperationId; poll getAsyncOperation until state is fulfilled/failed.
+  ref: arazzo/temporal-track-async-operation-workflow.yml
+idempotency:
+  header: null
+  note: >-
+    No dedicated idempotency-key header is documented; safe retries rely on
+    resourceVersion for updates and on re-reading async operation state.
+error_envelope:
+  format: grpc-status (google.rpc.Status)
+  fields: [code, message, details]
+  ref: errors/temporal-error-codes.yml
+versioning:
+  scheme: dated-api-version
+  ref: lifecycle/temporal-lifecycle.yml
+rate_limiting:
+  ref: rate-limits/temporal-rate-limits.yml
+transport:
+  facade: grpc-gateway (HTTP/JSON over gRPC)
+  proto: grpc/temporal-cloudservice.proto

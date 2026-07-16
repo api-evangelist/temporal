@@ -1,0 +1,46 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.temporal.io/cli/command-reference
+description: >-
+  First-party command-line tools. `temporal` administers the server and
+  Workflow executions and runs a local dev server; `tcld` administers Temporal
+  Cloud accounts, namespaces, users, service accounts, and API keys (the Cloud
+  Ops API command surface).
+clis:
+  - name: temporal
+    docs: https://docs.temporal.io/cli
+    source: https://github.com/temporalio/cli
+    package: packages/temporal-packages.yml#temporal
+    install:
+      - brew install temporal
+      - "curl -sSf https://temporal.download/cli.sh | sh"
+    command_groups:
+      - name: activity
+        description: Complete or fail an Activity.
+      - name: batch
+        description: Manage running batch jobs.
+      - name: cloud
+        description: Manage Temporal Cloud (delegates to tcld-style operations).
+      - name: config
+        description: Manage the CLI configuration file.
+      - name: env
+        description: Manage environments (connection profiles).
+      - name: operator
+        description: Manage the cluster, namespaces, search attributes, and Nexus.
+      - name: schedule
+        description: Create, update, and manage Scheduled Workflows.
+      - name: server
+        description: Run a local Temporal dev server (temporal server start-dev).
+      - name: task-queue
+        description: Inspect and manage Task Queues.
+      - name: worker
+        description: Manage worker deployments and versioning.
+      - name: workflow
+        description: Start, signal, query, describe, list, and manage Workflow Executions.
+  - name: tcld
+    docs: https://docs.temporal.io/cloud/tcld
+    source: https://github.com/temporalio/tcld
+    package: packages/temporal-packages.yml#tcld
+    install:
+      - brew install temporalio/brew/tcld
+    note: Temporal Cloud CLI; covers the same control-plane surface as the Cloud Ops API (namespaces, users, service accounts, API keys, regions).

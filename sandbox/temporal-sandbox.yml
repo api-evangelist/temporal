@@ -1,0 +1,26 @@
+generated: '2026-06-20'
+method: searched
+source: https://docs.temporal.io/cli/server
+description: >-
+  Temporal's testing/sandbox surface is developer tooling rather than a
+  test-vs-live keyed environment. There are no test card numbers or magic
+  identifiers; instead Temporal ships a local dev server and a time-skipping
+  test environment in each SDK so workflows can be exercised deterministically.
+  The Cloud Ops API itself has no separate sandbox host — it is validated against
+  a real Temporal Cloud account with an API key.
+environments:
+  - name: Local dev server
+    kind: local-server
+    command: temporal server start-dev
+    ui: http://localhost:8233
+    docs: https://docs.temporal.io/cli/server
+    note: In-memory single-binary Temporal Server with Web UI for local development and testing.
+  - name: Time-skipping test environment
+    kind: test-framework
+    docs: https://docs.temporal.io/develop/go/testing-suite
+    note: >-
+      SDK test frameworks (WorkflowTestEnvironment / time-skipping test server)
+      run workflows in a controlled clock so long timers complete instantly and
+      execution is deterministic. Available across Go/Java/Python/TypeScript/.NET SDKs.
+test_values: []
+note: No provider-published test credentials, test cards, or magic identifiers exist for this control-plane API.

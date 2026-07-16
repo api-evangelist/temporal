@@ -1,0 +1,77 @@
+generated: '2026-06-20'
+method: derived
+status: candidate
+source: openapi/cloud-ops-api.yml
+description: >-
+  Candidate MCP tool surface derived one-to-one from the Temporal Cloud Ops API
+  operations. Temporal does not publish a first-party hosted MCP server for the
+  Cloud Ops control plane; a community MCP server for the Workflow (data-plane)
+  API is listed on the Temporal Code Exchange (see related[]).
+server:
+  name: temporal-cloud-ops
+  transport: http
+  # No official hosted control-plane MCP endpoint published; tools below are a candidate mapping.
+related:
+  - name: Temporal MCP Server (community)
+    scope: Workflow / data-plane (WorkflowService) — start/query/signal/cancel workflows, schedules, batch ops
+    url: https://temporal.io/code-exchange/temporal-mcp-server
+    official: false
+    note: 19 tools over the Temporal Workflow API; not the Cloud Ops control plane.
+tools:
+  - name: list_namespaces
+    description: Returns a list of all Namespaces in the account.
+    source_operation: openapi/cloud-ops-api.yml#listNamespaces
+  - name: create_namespace
+    description: Creates a new Namespace in the account.
+    source_operation: openapi/cloud-ops-api.yml#createNamespace
+  - name: get_namespace
+    description: Returns details of a specific Namespace.
+    source_operation: openapi/cloud-ops-api.yml#getNamespace
+  - name: update_namespace
+    description: Updates a Namespace using optimistic concurrency (resourceVersion).
+    source_operation: openapi/cloud-ops-api.yml#updateNamespace
+  - name: delete_namespace
+    description: Deletes a Namespace from the account.
+    source_operation: openapi/cloud-ops-api.yml#deleteNamespace
+  - name: list_users
+    description: Returns a list of Users in the account.
+    source_operation: openapi/cloud-ops-api.yml#listUsers
+  - name: create_user
+    description: Invites/creates a User.
+    source_operation: openapi/cloud-ops-api.yml#createUser
+  - name: get_user
+    description: Returns details of a specific User.
+    source_operation: openapi/cloud-ops-api.yml#getUser
+  - name: delete_user
+    description: Removes a User from the account.
+    source_operation: openapi/cloud-ops-api.yml#deleteUser
+  - name: list_service_accounts
+    description: Returns a list of Service Accounts.
+    source_operation: openapi/cloud-ops-api.yml#listServiceAccounts
+  - name: create_service_account
+    description: Creates a Service Account.
+    source_operation: openapi/cloud-ops-api.yml#createServiceAccount
+  - name: get_service_account
+    description: Returns details of a specific Service Account.
+    source_operation: openapi/cloud-ops-api.yml#getServiceAccount
+  - name: delete_service_account
+    description: Deletes a Service Account.
+    source_operation: openapi/cloud-ops-api.yml#deleteServiceAccount
+  - name: list_api_keys
+    description: Returns a list of API Keys.
+    source_operation: openapi/cloud-ops-api.yml#listApiKeys
+  - name: create_api_key
+    description: Creates an API Key for an owner (User or Service Account).
+    source_operation: openapi/cloud-ops-api.yml#createApiKey
+  - name: get_api_key
+    description: Returns details of a specific API Key.
+    source_operation: openapi/cloud-ops-api.yml#getApiKey
+  - name: delete_api_key
+    description: Deletes an API Key.
+    source_operation: openapi/cloud-ops-api.yml#deleteApiKey
+  - name: list_regions
+    description: Returns the list of available cloud Regions.
+    source_operation: openapi/cloud-ops-api.yml#listRegions
+  - name: get_async_operation
+    description: Returns the status of a long-running async control-plane operation.
+    source_operation: openapi/cloud-ops-api.yml#getAsyncOperation

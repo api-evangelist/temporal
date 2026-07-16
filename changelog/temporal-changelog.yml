@@ -1,0 +1,58 @@
+generated: '2026-06-20'
+method: searched
+source: https://temporal.io/change-log
+description: >-
+  Recent Temporal Platform / Temporal Cloud changelog entries. This is a
+  product changelog (features, GA/preview promotions), not a per-endpoint API
+  version log. Recent window only; the live changelog is the source of truth.
+scheme: dated-product-changelog
+url: https://temporal.io/change-log
+entries:
+  - date: '2026-06-25'
+    title: Custom Roles
+    stage: private-preview
+    highlights: Define granular, custom permission sets beyond the built-in RBAC roles.
+  - date: '2026-06-01'
+    title: Temporal Cloud on Azure
+    stage: private-preview
+    highlights: Temporal Cloud available on Microsoft Azure in an invite-only pre-release.
+  - date: '2026-05-29'
+    title: Stable IPs for Namespace Endpoints
+    stage: ga
+    highlights: Stable egress/ingress IPs for namespace endpoints generally available.
+  - date: '2026-05-14'
+    title: External Storage
+    stage: public-preview
+    highlights: Offload large payloads to external storage providers.
+  - date: '2026-05-07'
+    title: Rust SDK
+    stage: public-preview
+    highlights: Fully-featured Temporal Rust SDK in public preview.
+  - date: '2026-05-05'
+    title: Task Queue Priority & Fairness
+    stage: ga
+    highlights: Prioritize and fairly schedule work across task queues.
+  - date: '2026-05-04'
+    title: Temporal Worker Controller
+    stage: ga
+    highlights: Kubernetes worker controller for safe, versioned worker deployments.
+  - date: '2026-04-30'
+    title: Principal Attribution
+    stage: private-preview
+    highlights: Attribute Workflow Executions to the initiating principal for accountability.
+  - date: '2026-04-16'
+    title: OpenAI Agents SDK Sandbox Integration
+    stage: public-preview
+    highlights: OpenAI Agents SDK integration extended to sandbox environments.
+  - date: '2026-04-08'
+    title: External Storage Claim-Check
+    stage: private-preview
+    highlights: Claim-check pattern to offload large payloads to external storage.
+  - date: '2026-04-02'
+    title: OpenMetrics Endpoint
+    stage: ga
+    highlights: OpenMetrics endpoint for Temporal Cloud generally available.
+  - date: '2026-03-31'
+    title: High Availability
+    stage: ga
+    highlights: High Availability (multi-region) features generally available.
