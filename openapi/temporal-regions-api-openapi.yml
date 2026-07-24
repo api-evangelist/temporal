@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Temporal Cloud Operations API Keys Regions API
+  description: The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.
+  version: 2024-05-13-00
+  contact:
+    name: Temporal Technologies
+    url: https://temporal.io/
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+- url: https://saas-api.tmprl.cloud
+  description: Temporal Cloud API
+security:
+- BearerAuth: []
+tags:
+- name: Regions
+paths:
+  /api/v1/regions:
+    get:
+      operationId: listRegions
+      summary: List Regions
+      description: Returns a list of all available regions.
+      tags:
+      - Regions
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  regions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Region'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Region:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        cloudProvider:
+          type: string
+          example: example_value
+        location:
+          type: string
+          example: example_value
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key

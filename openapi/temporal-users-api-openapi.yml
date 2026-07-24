@@ -1,0 +1,159 @@
+openapi: 3.1.0
+info:
+  title: Temporal Cloud Operations API Keys Users API
+  description: The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.
+  version: 2024-05-13-00
+  contact:
+    name: Temporal Technologies
+    url: https://temporal.io/
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+- url: https://saas-api.tmprl.cloud
+  description: Temporal Cloud API
+security:
+- BearerAuth: []
+tags:
+- name: Users
+paths:
+  /api/v1/users:
+    get:
+      operationId: listUsers
+      summary: List Users
+      description: Returns a list of all Users in the account.
+      tags:
+      - Users
+      parameters:
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  nextPageToken:
+                    type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createUser
+      summary: Create a User
+      description: Creates a new User in the account.
+      tags:
+      - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/v1/users/{userId}:
+    get:
+      operationId: getUser
+      summary: Get a User
+      description: Returns details of a specific User.
+      tags:
+      - Users
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteUser
+      summary: Delete a User
+      description: Deletes a specific User.
+      tags:
+      - Users
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        resourceVersion:
+          type: string
+          example: example_value
+        spec:
+          type: object
+          properties:
+            email:
+              type: string
+            access:
+              type: object
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        createdTime:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        lastModifiedTime:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+    CreateUserRequest:
+      type: object
+      required:
+      - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            email:
+              type: string
+            access:
+              type: object
+          example: example_value
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key

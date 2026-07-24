@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: Temporal Cloud Operations API Keys Async Operations API
+  description: The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.
+  version: 2024-05-13-00
+  contact:
+    name: Temporal Technologies
+    url: https://temporal.io/
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+- url: https://saas-api.tmprl.cloud
+  description: Temporal Cloud API
+security:
+- BearerAuth: []
+tags:
+- name: Async Operations
+paths:
+  /api/v1/async-operations/{asyncOperationId}:
+    get:
+      operationId: getAsyncOperation
+      summary: Get Async Operation Status
+      description: Returns the status of an asynchronous operation.
+      tags:
+      - Async Operations
+      parameters:
+      - name: asyncOperationId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncOperation'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    AsyncOperation:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        state:
+          type: string
+          example: example_value
+        checkDuration:
+          type: string
+          example: example_value
+        operationType:
+          type: string
+          example: example_value
+        startedTime:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        finishedTime:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+        failureReason:
+          type: string
+          example: example_value
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key

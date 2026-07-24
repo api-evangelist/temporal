@@ -1,0 +1,173 @@
+openapi: 3.1.0
+info:
+  title: Temporal Cloud Operations API Keys API
+  description: The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.
+  version: 2024-05-13-00
+  contact:
+    name: Temporal Technologies
+    url: https://temporal.io/
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+- url: https://saas-api.tmprl.cloud
+  description: Temporal Cloud API
+security:
+- BearerAuth: []
+tags:
+- name: API Keys
+paths:
+  /api/v1/api-keys:
+    get:
+      operationId: listApiKeys
+      summary: List Api Keys
+      description: Returns a list of all API keys in the account.
+      tags:
+      - API Keys
+      parameters:
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+      - name: pageToken
+        in: query
+        schema:
+          type: string
+      - name: ownerId
+        in: query
+        schema:
+          type: string
+      - name: ownerType
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  apiKeys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKey'
+                  nextPageToken:
+                    type: string
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createApiKey
+      summary: Create an Api Key
+      description: Creates a new API key for authentication.
+      tags:
+      - API Keys
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyRequest'
+      responses:
+        '200':
+          description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/v1/api-keys/{keyId}:
+    get:
+      operationId: getApiKey
+      summary: Get an Api Key
+      description: Returns details of a specific API key.
+      tags:
+      - API Keys
+      parameters:
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteApiKey
+      summary: Delete an Api Key
+      description: Deletes a specific API key.
+      tags:
+      - API Keys
+      parameters:
+      - name: keyId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+          example: abc123
+        resourceVersion:
+          type: string
+          example: example_value
+        spec:
+          type: object
+          properties:
+            displayName:
+              type: string
+            ownerId:
+              type: string
+            ownerType:
+              type: string
+            expiryTime:
+              type: string
+              format: date-time
+          example: example_value
+        state:
+          type: string
+          example: example_value
+        createdTime:
+          type: string
+          format: date-time
+          example: '2026-01-15T10:30:00Z'
+    CreateApiKeyRequest:
+      type: object
+      required:
+      - spec
+      properties:
+        spec:
+          type: object
+          properties:
+            displayName:
+              type: string
+            ownerId:
+              type: string
+            ownerType:
+              type: string
+            expiryTime:
+              type: string
+              format: date-time
+          example: example_value
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: API Key
