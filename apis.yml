@@ -7,9 +7,22 @@ description: >-
   Temporal is an open-source durable execution platform for building reliable long-running distributed workflows and
   microservices.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/temporal.png
 tags:
   - ProCode_API_Composition
   - Workflows
@@ -18,56 +31,173 @@ modified: '2026-06-20'
 url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: temporal:server-frontend-api
-    name: Temporal Server Frontend API
-    description: >-
-      The Temporal Server Frontend API provides gRPC services for interacting with the Temporal Server, including
-      WorkflowService for managing workflow executions, OperatorService for cluster operations, and HealthService for
-      health checks. Client SDKs and the Temporal CLI use these gRPC services under the hood.
-    humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
-    tags:
-      - Durable Execution
-      - gRPC
-      - Workflows
-    properties:
-      - type: Documentation
-        url: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
-      - type: GitHubRepository
-        url: https://github.com/temporalio/api
-  - aid: temporal:cloud-ops-api
-    name: Temporal Cloud Ops API
-    description: >-
-      The Temporal Cloud Operations API is an open source, public HTTP API and gRPC API for programmatically managing
-      Temporal Cloud control plane resources, including Namespaces, Users, Service Accounts, API keys, and other
-      infrastructure components.
-    humanURL: https://docs.temporal.io/ops
-    tags:
-      - Cloud
-      - Operations
-      - Workflows
-    properties:
-      - type: Documentation
-        url: https://docs.temporal.io/ops
-      - type: APIReference
-        url: https://saas-api.tmprl.cloud/docs/httpapi.html
-      - type: GitHubRepository
-        url: https://github.com/temporalio/cloud-api
-      - type: OpenAPI
-        url: openapi/cloud-ops-api.yml
-      - type: Overlay
-        url: overlays/temporal-cloud-ops-api-overlay.yaml
-      - type: Protobuf
-        url: grpc/temporal-cloudservice.proto
-      - type: MCPServer
-        url: mcp/temporal-mcp.yml
-      - type: Conformance
-        url: conformance/temporal-conformance.yml
-      - type: ErrorCatalog
-        url: errors/temporal-error-codes.yml
-      - type: Conventions
-        url: conventions/temporal-conventions.yml
-      - type: DataModel
-        url: data-model/temporal-data-model.yml
+- aid: temporal:server-frontend-api
+  name: Temporal Server Frontend API
+  description: >-
+    The Temporal Server Frontend API provides gRPC services for interacting with the Temporal Server,
+    including WorkflowService for managing workflow executions, OperatorService for cluster operations,
+    and HealthService for health checks. Client SDKs and the Temporal CLI use these gRPC services under
+    the hood.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Durable Execution
+  - gRPC
+  - Workflows
+  properties:
+  - type: Documentation
+    url: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  - type: GitHubRepository
+    url: https://github.com/temporalio/api
+- aid: temporal:temporal-api-keys-api
+  name: Temporal API Keys API
+  description: The API Keys API from Temporal — 2 operation(s) for api keys.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
+- aid: temporal:temporal-async-operations-api
+  name: Temporal Async Operations API
+  description: The Async Operations API from Temporal — 1 operation(s) for async operations.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Async Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-async-operations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
+- aid: temporal:temporal-namespaces-api
+  name: Temporal Namespaces API
+  description: The Namespaces API from Temporal — 3 operation(s) for namespaces.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Namespaces
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-namespaces-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
+- aid: temporal:temporal-regions-api
+  name: Temporal Regions API
+  description: The Regions API from Temporal — 1 operation(s) for regions.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Regions
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-regions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
+- aid: temporal:temporal-service-accounts-api
+  name: Temporal Service Accounts API
+  description: The Service Accounts API from Temporal — 2 operation(s) for service accounts.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Service Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-service-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
+- aid: temporal:temporal-users-api
+  name: Temporal Users API
+  description: The Users API from Temporal — 2 operation(s) for users.
+  humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/temporal-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.temporal.io/ops
+  - type: APIReference
+    url: https://saas-api.tmprl.cloud/docs/httpapi.html
+  - type: GitHubRepository
+    url: https://github.com/temporalio/cloud-api
+  - type: Protobuf
+    url: grpc/temporal-cloudservice.proto
+  - type: Conformance
+    url: conformance/temporal-conformance.yml
+  - type: ErrorCatalog
+    url: errors/temporal-error-codes.yml
+  - type: Conventions
+    url: conventions/temporal-conventions.yml
+  - type: DataModel
+    url: data-model/temporal-data-model.yml
 common:
   - type: Packages
     url: packages/temporal-packages.yml
