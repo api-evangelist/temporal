@@ -1,0 +1,24 @@
+{
+  "provider": "temporal",
+  "sources": [
+    "temporal-api-keys-api-openapi.yml",
+    "temporal-async-operations-api-openapi.yml",
+    "temporal-namespaces-api-openapi.yml",
+    "temporal-regions-api-openapi.yml",
+    "temporal-service-accounts-api-openapi.yml",
+    "temporal-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "temporal-api-keys-api-openapi.yml",
+    "temporal-async-operations-api-openapi.yml",
+    "temporal-namespaces-api-openapi.yml",
+    "temporal-regions-api-openapi.yml",
+    "temporal-service-accounts-api-openapi.yml",
+    "temporal-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
