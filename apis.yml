@@ -29,7 +29,7 @@ tags:
 created: '2026-03-03'
 modified: '2026-06-20'
 url: https://raw.githubusercontent.com/api-evangelist/temporal/refs/heads/main/apis.yml
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - aid: temporal:server-frontend-api
   name: Temporal Server Frontend API
