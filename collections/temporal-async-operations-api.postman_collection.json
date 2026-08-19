@@ -1,0 +1,141 @@
+{
+  "item": [
+    {
+      "id": "d5dce33f-757d-4651-831d-443b6bf2f807",
+      "name": "Async Operations",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "78096838-e2bd-47b3-8a94-f451a0973626",
+          "name": "Get Async Operation Status",
+          "request": {
+            "name": "Get Async Operation Status",
+            "description": {
+              "content": "Returns the status of an asynchronous operation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "async-operations",
+                ":asyncOperationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "asyncOperationId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7269ebc1-4c11-454a-91e5-d4580d6b419a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "async-operations",
+                    ":asyncOperationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asyncOperationId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"abc123\",\n  \"state\": \"example_value\",\n  \"checkDuration\": \"example_value\",\n  \"operationType\": \"example_value\",\n  \"startedTime\": \"2026-01-15T10:30:00Z\",\n  \"finishedTime\": \"2026-01-15T10:30:00Z\",\n  \"failureReason\": \"example_value\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://saas-api.tmprl.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "fa9699c8-c5cf-49fc-9a10-8b696a0253fc",
+    "name": "Temporal Cloud Operations API Keys Async Operations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.\n\nContact Support:\n Name: Temporal Technologies",
+      "type": "text/plain"
+    }
+  }
+}

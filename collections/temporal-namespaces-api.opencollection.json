@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temporal Cloud Operations API Keys Namespaces API",
+    "version": "2024-05-13-00"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Namespaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Namespaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all Namespaces in the account."
+        },
+        {
+          "info": {
+            "name": "Create a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Namespace in the account."
+        },
+        {
+          "info": {
+            "name": "Get a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific Namespace."
+        },
+        {
+          "info": {
+            "name": "Delete a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific Namespace."
+        },
+        {
+          "info": {
+            "name": "Update a Namespace",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/namespaces/:namespace/update",
+            "params": [
+              {
+                "name": "namespace",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a specific Namespace configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

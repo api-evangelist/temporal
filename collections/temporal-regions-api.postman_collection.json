@@ -1,0 +1,123 @@
+{
+  "item": [
+    {
+      "id": "954a847e-eecb-4c8a-8c5a-62fae1e61627",
+      "name": "Regions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3184a562-ddbe-441a-878f-2cd9a6e58354",
+          "name": "List Regions",
+          "request": {
+            "name": "List Regions",
+            "description": {
+              "content": "Returns a list of all available regions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "regions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "459b85df-8026-4853-b874-7578a9c2147a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "regions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"regions\": [\n    {\n      \"id\": \"abc123\",\n      \"cloudProvider\": \"example_value\",\n      \"location\": \"example_value\"\n    },\n    {\n      \"id\": \"abc123\",\n      \"cloudProvider\": \"example_value\",\n      \"location\": \"example_value\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://saas-api.tmprl.cloud",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0fa531fe-f521-48f3-a0ef-79b15d64f542",
+    "name": "Temporal Cloud Operations API Keys Regions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.\n\nContact Support:\n Name: Temporal Technologies",
+      "type": "text/plain"
+    }
+  }
+}

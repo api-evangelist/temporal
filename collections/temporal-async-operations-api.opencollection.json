@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temporal Cloud Operations API Keys Async Operations API",
+    "version": "2024-05-13-00"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Async Operations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Async Operation Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/async-operations/:asyncOperationId",
+            "params": [
+              {
+                "name": "asyncOperationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns the status of an asynchronous operation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

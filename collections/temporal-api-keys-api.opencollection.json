@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Temporal Cloud Operations API Keys API",
+    "version": "2024-05-13-00"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Api Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageToken",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ownerId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ownerType",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of all API keys in the account."
+        },
+        {
+          "info": {
+            "name": "Create an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new API key for authentication."
+        },
+        {
+          "info": {
+            "name": "Get an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys/:keyId",
+            "params": [
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns details of a specific API key."
+        },
+        {
+          "info": {
+            "name": "Delete an Api Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://saas-api.tmprl.cloud/api/v1/api-keys/:keyId",
+            "params": [
+              {
+                "name": "keyId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a specific API key."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
