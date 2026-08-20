@@ -24,6 +24,9 @@ position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/temporal.png
 tags:
+  - Pro-Code-API-Composition
+  - Workflows
+tags_raw:
   - ProCode_API_Composition
   - Workflows
 created: '2026-03-03'
@@ -53,6 +56,8 @@ apis:
   description: The API Keys API from Temporal — 2 operation(s) for api keys.
   humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -178,6 +183,8 @@ apis:
   description: The Users API from Temporal — 2 operation(s) for users.
   humanURL: https://docs.temporal.io/self-hosted-guide/server-frontend-api-reference
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
