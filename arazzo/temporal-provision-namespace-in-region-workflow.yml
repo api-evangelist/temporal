@@ -12,8 +12,14 @@ info:
     without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: cloudOpsApi
-  url: ../openapi/cloud-ops-api.yml
+- name: asyncOperationsApi
+  url: ../openapi/temporal-async-operations-api-openapi.yml
+  type: openapi
+- name: namespacesApi
+  url: ../openapi/temporal-namespaces-api-openapi.yml
+  type: openapi
+- name: regionsApi
+  url: ../openapi/temporal-regions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: provision-namespace-in-region

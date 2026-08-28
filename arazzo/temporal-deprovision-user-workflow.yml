@@ -10,8 +10,8 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: cloudOpsApi
-  url: ../openapi/cloud-ops-api.yml
+- name: usersApi
+  url: ../openapi/temporal-users-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: deprovision-user
