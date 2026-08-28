@@ -7,6 +7,20 @@ description: >-
   Temporal is an open-source durable execution platform for building reliable long-running distributed workflows and
   microservices.
 type: Index
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -206,6 +220,13 @@ apis:
   - type: DataModel
     url: data-model/temporal-data-model.yml
 common:
+  - type: CapabilityMap
+    url: capabilities/temporal-capability-edges.yml
+    name: Temporal Business Capability Map
+  - type: IssueTracker
+    url: https://github.com/temporalio/api/issues
+  - type: Releases
+    url: https://github.com/temporalio/api/releases
   - type: MCPServer
     url: mcp/temporal-mcp.yml
   - type: Overlay
