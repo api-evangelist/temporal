@@ -222,6 +222,8 @@ apis:
   - type: DataModel
     url: data-model/temporal-data-model.yml
 common:
+  - type: Website
+    url: https://www.temporal.io/
   - type: CapabilityMap
     url: capabilities/temporal-capability-edges.yml
     name: Temporal Business Capability Map
