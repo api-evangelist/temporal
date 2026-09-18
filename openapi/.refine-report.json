@@ -1,12 +1,7 @@
 {
   "provider": "temporal",
   "sources": [
-    "temporal-api-keys-api-openapi.yml",
-    "temporal-async-operations-api-openapi.yml",
-    "temporal-namespaces-api-openapi.yml",
-    "temporal-regions-api-openapi.yml",
-    "temporal-service-accounts-api-openapi.yml",
-    "temporal-users-api-openapi.yml"
+    "_original/cloud-ops-api.yml"
   ],
   "outputs": [
     "temporal-api-keys-api-openapi.yml",
@@ -19,6 +14,23 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cloud-ops-api.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "cloud-ops-api.yml: declared missing tag: API Keys",
+    "cloud-ops-api.yml: declared missing tag: Async Operations",
+    "cloud-ops-api.yml: declared missing tag: Namespaces",
+    "cloud-ops-api.yml: declared missing tag: Regions",
+    "cloud-ops-api.yml: declared missing tag: Service Accounts",
+    "cloud-ops-api.yml: declared missing tag: Users",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "temporal-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temporal-async-operations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temporal-namespaces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temporal-regions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temporal-service-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "temporal-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

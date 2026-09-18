@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Temporal Cloud Operations API Keys Namespaces API
+  title: Temporal Cloud Operations Namespaces API
   description: The Temporal Cloud Operations API provides HTTP endpoints for programmatically managing Temporal Cloud control plane resources including Namespaces, Users, Service Accounts, API keys, and other infrastructure components.
   version: 2024-05-13-00
   contact:
@@ -180,15 +180,6 @@ components:
           type: string
           format: date-time
           example: '2026-01-15T10:30:00Z'
-    CreateNamespaceResponse:
-      type: object
-      properties:
-        namespace:
-          type: string
-          example: example_value
-        asyncOperationId:
-          type: string
-          example: '500123'
     UpdateNamespaceRequest:
       type: object
       required:
@@ -201,6 +192,15 @@ components:
         spec:
           type: object
           example: example_value
+    CreateNamespaceResponse:
+      type: object
+      properties:
+        namespace:
+          type: string
+          example: example_value
+        asyncOperationId:
+          type: string
+          example: '500123'
     CreateNamespaceRequest:
       type: object
       required:
